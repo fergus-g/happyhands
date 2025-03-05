@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   Card,
@@ -6,9 +7,15 @@ import {
   Box,
   Image,
   HStack,
+  IconButton,
+  useBreakpointValue,
+  Text,
+  Container,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple, faGooglePlay } from "@fortawesome/free-brands-svg-icons";
+import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
+import Slider from "react-slick";
 import {
   FaStar,
   FaPenSquare,
@@ -18,8 +25,45 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
+const settings = {
+  dots: true,
+  arrows: false,
+  fade: true,
+  infinite: true,
+  autoplay: true,
+  speed: 500,
+  autoplaySpeed: 5000,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
+
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [slider, setSlider] = React.useState<Slider | null>(null);
+  const top = useBreakpointValue({ base: "90%", md: "50%" });
+  const side = useBreakpointValue({ base: "30%", md: "40px" });
+
+  const cards = [
+    {
+      title: "Sarah Michaels",
+      text: "This app has made chores fun! My kids love earning points, and we've had fewer arguments about screen time. It's a win-win!",
+      image:
+        "https://media.istockphoto.com/id/1325578537/photo/happy-indian-mother-having-fun-with-her-daughter-outdoor-family-and-love-concept-focus-on-mum.jpg?s=2048x2048&w=is&k=20&c=n1oZfFbGfu9PtHNxOO0NaDro16Cl8dUG-1Hkks0DhFc=",
+    },
+    {
+      title: "James Ryan",
+      text: "I love how my kids are now excited to complete their tasks. They plan their rewards and even suggest new ones. Great app!",
+      image:
+        "https://media.istockphoto.com/id/1968410965/photo/portrait-of-a-happy-little-girl-having-breakfast-with-her-mother-and-father-at-home.jpg?s=2048x2048&w=is&k=20&c=VO3ZRirGTRn505xJL6LOKJerE8UYhoKIUeZGm_48QQA=",
+    },
+    {
+      title: "Emily Tomas",
+      text: "Our weekend trips feel more rewarding because our kids earn them! They take ownership, and we all enjoy the experience together.",
+      image:
+        "https://media.istockphoto.com/id/1460965686/photo/seeing-your-daughter-happy-is-a-remarkable-feeling.jpg?s=2048x2048&w=is&k=20&c=wFhZctR4l_K9obCz16oXfcG3embCZa75Qb9qlv1KxQE=",
+    },
+  ];
+
   return (
     <>
       {/* Header */}
@@ -385,9 +429,99 @@ const LandingPage = () => {
 
           <Card.Footer justifyContent="flex-end"></Card.Footer>
         </Card.Root>
-      </Stack>
 
-      <Stack height="1000px"></Stack>
+        <Box
+          position={"relative"}
+          height={"600px"}
+          width={"80%"}
+          overflow={"hidden"}
+          margin="auto"
+          borderRadius="10px"
+        >
+          {/* CSS files for react-slick */}
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+          />
+          {/* Left Icon */}
+          <IconButton
+            aria-label="left-arrow"
+            variant="ghost"
+            position="absolute"
+            left={side}
+            top={top}
+            transform={"translate(0%, -50%)"}
+            zIndex={2}
+            onClick={() => slider?.slickPrev()}
+          >
+            <BiLeftArrowAlt size="40px" />
+          </IconButton>
+          {/* Right Icon */}
+          <IconButton
+            aria-label="right-arrow"
+            variant="ghost"
+            position="absolute"
+            right={side}
+            top={top}
+            transform={"translate(0%, -50%)"}
+            zIndex={2}
+            onClick={() => slider?.slickNext()}
+          >
+            <BiRightArrowAlt size="40px" />
+          </IconButton>
+          {/* Slider */}
+          <Slider {...settings} ref={(slider) => setSlider(slider)}>
+            {cards.map((card, index) => (
+              <Box
+                key={index}
+                height={"6xl"}
+                position="relative"
+                backgroundPosition="center"
+                backgroundRepeat="no-repeat"
+                backgroundSize="cover"
+                backgroundImage={`url(${card.image})`}
+              >
+                {/* This is the block you need to change, to customize the caption */}
+                <Container
+                  size="container.lg"
+                  height="600px"
+                  position="relative"
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <Stack
+                    spacing={6}
+                    w={"full"}
+                    maxW={"lg"}
+                    position="absolute"
+                    top="50%"
+                    transform="translate(0, -50%)"
+                    backgroundColor="rgba(255, 255, 255, 0.5)"
+                    padding="10px"
+                    borderRadius="10px"
+                  >
+                    <Heading
+                      fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+                      marginBottom="10px"
+                    >
+                      {card.title}
+                    </Heading>
+                    <Text fontSize={{ base: "md", lg: "lg" }} color="GrayText">
+                      {card.text}
+                    </Text>
+                  </Stack>
+                </Container>
+              </Box>
+            ))}
+          </Slider>
+        </Box>
+      </Stack>
     </>
   );
 };
