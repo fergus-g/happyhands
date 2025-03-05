@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { signIn } from "../utils/auth";
+import { Field } from '@chakra-ui/react';
+import { Input } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Heading } from '@chakra-ui/react';
+// import { ReactFormState } from "react-dom/client";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -11,7 +17,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (event: React.FormEvent) => {
+    event.preventDefault()
     setLoading(true);
     setError(null);
 
@@ -29,37 +36,50 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="p-8 border shadow-md rounded-lg max-w-sm w-full">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+  
+    <Box display="flex" justifyContent="center" alignItems="center" minH="100vh" px={4} bg="#80CBC4">
+      <Box p={12} borderWidth="1px" shadow="lg" borderRadius="xl" maxW="md" w="full" bg="white">
+        <Heading style={{ fontSize: "1.875rem", fontWeight: "bold", textAlign: "center", marginBottom: "2rem" }}>Login</Heading>
 
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {error && <Box color="red.500" fontSize="sm" mb={4}>{error}</Box>}
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-2 border rounded mb-3"
+        <form onSubmit={handleSignIn} className="w-full">
+                <Field.Root>
+                <Field.Label>
+                  <Field.RequiredIndicator />
+                </Field.Label>
+                <Input placeholder="Email" variant="subtle" type="email"
+          shadow="md"
+          bg="white"
           value={email}
+          _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
           onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-2 border rounded mb-3"
+          required/>
+                <Input placeholder="Password" variant="subtle" type="password"
+          shadow="md"
           value={password}
+          bg="white"
+          _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
           onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button
-          className="w-full bg-blue-500 text-white p-2 rounded"
-          onClick={handleSignIn}
+          required/>
+                <Field.HelperText />
+                <Field.ErrorText />
+              </Field.Root>
+              <Button  type="submit" colorScheme="blue"
+            width="full"
+            size="lg"
+            color="black"
+            // borderWidth="1px" 
+            // borderColor="#B4EBE6"
+            shadow="md" // Adds shadow
           disabled={loading}
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </div>
-    </div>
+          bg="white"
+          justifyContent="center"
+          alignItems="center"
+          _hover={{ bg: "#B4EBE6" }}
+          mt={2}> {loading ? "Logging in..." : "Login"}</Button>
+      </form>
+      </Box>
+    </Box>
   );
 }
