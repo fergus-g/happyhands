@@ -59,7 +59,7 @@ const NavBar: React.FC = () => {
       {/* Left: Navigation Links */}
       <ul className="flex space-x-4">
         <li>
-          <Link to="/">Dashboard</Link>
+          <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>
           <Link to="/tasks">Tasks</Link>
