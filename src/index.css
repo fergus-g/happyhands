@@ -1,1 +1,6 @@
-@import "tailwindcss";
+* {
+  background-color: white;
+  color: black;
+  margin: 0;
+  padding: 0;
+}

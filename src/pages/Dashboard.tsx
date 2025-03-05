@@ -59,12 +59,7 @@ export default function Dashboard() {
           .eq("parent_id", parentId);
 
         if (kidsError) throw new Error("Error fetching children.");
-        setKids(
-          kidsData?.map((kid) => ({
-            ...kid,
-            currency: kid.currency ?? 0,
-          })) || []
-        );
+        setKids(kidsData || []);
 
         // 4: Fetch pending reward redemptions
         type RedemptionWithReward = {
