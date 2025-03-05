@@ -47,8 +47,7 @@ const NavBar: React.FC = () => {
   }, [user]);
 
   const handleKidSelection = (kidId: number) => {
-    navigate(`/kid/${kidId}`, { replace: true });
-    window.location.reload();
+    navigate(`/kid/${kidId}`);
   };
 
   const handleLogout = async () => {
@@ -77,10 +76,7 @@ const NavBar: React.FC = () => {
           <li>
             <select
               className="text-black p-2 rounded"
-              onChange={(e) => {
-                handleKidSelection(parseInt(e.target.value));
-                e.target.value = "";
-              }}
+              onChange={(e) => handleKidSelection(parseInt(e.target.value))}
               defaultValue=""
             >
               <option value="" disabled>
