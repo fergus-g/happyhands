@@ -278,7 +278,7 @@ const KidProfile: React.FC = () => {
                 ))}
               </Stack>
             ) : (
-              <Text>No rewards available.</Text>
+              <Text>No rewards available</Text>
             )}
           </Stack>
         </Box>
