@@ -19,7 +19,7 @@ const KidProfile: React.FC = () => {
   const { id } = useParams();
   const [kid, setKid] = useState<Kid | null>(null);
   const [tasks, setTasks] = useState<
-    { id: number; name: string; reward_value: number }[]
+    { id: number; name: string; reward_value: number; completed: boolean }[]
   >([]);
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [loading, setLoading] = useState(false);
@@ -71,7 +71,7 @@ const KidProfile: React.FC = () => {
 
       const { data: tasksData, error: tasksError } = await supabase
         .from("soc_final_tasks")
-        .select("id, name, reward_value")
+        .select("id, name, reward_value, completed")
         .eq("assigned_to", parsedKidId);
 
       if (tasksError) {
@@ -79,7 +79,12 @@ const KidProfile: React.FC = () => {
         return;
       }
 
-      setTasks(tasksData);
+      setTasks(
+        tasksData.map((task) => ({
+          ...task,
+          completed: task.completed || false,
+        }))
+      );
       console.log("Fetched Tasks for Kid:", tasksData);
     };
 

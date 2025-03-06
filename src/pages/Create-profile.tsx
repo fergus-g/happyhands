@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import { Box, Heading, Input, Button, Text } from "@chakra-ui/react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Slider } from "../components/ui/slider";
 
 export default function CreateProfile() {
   const navigate = useNavigate();
