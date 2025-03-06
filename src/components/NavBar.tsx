@@ -168,7 +168,6 @@ const NavBar: React.FC = () => {
           right="0"
           backgroundColor={"#80CBC4"}
           zIndex="999"
-          spacing={4}
           p={4}
           width="100vw"
           boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"

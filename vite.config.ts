@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -19,10 +20,13 @@ export default defineConfig({
         theme_color: "#ffffff", // Add your desired theme color here
       },
     }),
+    sentryVitePlugin({
+      org: "fergus-gildea",
+      project: "javascript-react",
+    }),
   ],
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: "./vitest.setup.js",
+
+  build: {
+    sourcemap: true,
   },
 });

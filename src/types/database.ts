@@ -18,7 +18,6 @@ export interface Kid {
 export interface Task {
   id: number;
   name: string;
-  created_by: number;
   assigned_to: number;
   reward_value: number;
   completed: boolean;

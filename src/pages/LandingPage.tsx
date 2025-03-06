@@ -10,6 +10,7 @@ import {
   IconButton,
   useBreakpointValue,
   Text,
+  Link,
   Container,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -43,29 +44,35 @@ const LandingPage = () => {
   const top = useBreakpointValue({ base: "90%", md: "50%" });
   const side = useBreakpointValue({ base: "30%", md: "40px" });
 
-  const downloadRef = useRef(null);
-  const featuresRef = useRef(null);
-  const testimonialsRef = useRef(null);
+  const downloadRef = useRef<HTMLDivElement | null>(null);
+  const featuresRef = useRef<HTMLDivElement | null>(null);
+  const testimonialsRef = useRef<HTMLDivElement | null>(null);
 
   const scrolltoDownload = () => {
-    downloadRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
+    if (downloadRef.current) {
+      downloadRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
   };
 
   const scrollToFeatures = () => {
-    featuresRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
+    if (featuresRef.current) {
+      featuresRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
   };
 
   const scrollToTestimonials = () => {
-    testimonialsRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
+    if (testimonialsRef.current) {
+      testimonialsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
   };
 
   const cards = [
@@ -174,7 +181,7 @@ const LandingPage = () => {
                 color="purple"
                 fontSize="50px"
                 textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                sx={{
+                style={{
                   WebkitTextStroke: "1px black",
                 }}
                 alignSelf="center"
@@ -254,33 +261,31 @@ const LandingPage = () => {
             alignSelf="center"
             paddingBottom="50px"
           >
-            <Button
-              as="a"
-              href="https://apps.apple.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              colorScheme="blackAlpha"
-              variant="solid"
-              size="lg"
-              fontFamily="poppins"
-            >
-              <FontAwesomeIcon icon={faApple} />
-              Download on the App Store
-            </Button>
-            <Button
-              as="a"
-              href="https://play.google.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              colorScheme="blue"
-              variant="solid"
-              size="lg"
-              fontFamily="poppins"
-              width="293px"
-            >
-              <FontAwesomeIcon icon={faGooglePlay} />
-              Get it on Google Play
-            </Button>
+            <Link href="https://apps.apple.com">
+              <Button
+                rel="noopener noreferrer"
+                colorScheme="blackAlpha"
+                variant="solid"
+                size="lg"
+                fontFamily="poppins"
+              >
+                <FontAwesomeIcon icon={faApple} />
+                Download on the App Store
+              </Button>
+            </Link>
+            <Link href="https://play.google.com">
+              <Button
+                rel="noopener noreferrer"
+                colorScheme="blue"
+                variant="solid"
+                size="lg"
+                fontFamily="poppins"
+                width="293px"
+              >
+                <FontAwesomeIcon icon={faGooglePlay} />
+                Get it on Google Play
+              </Button>
+            </Link>
           </Card.Footer>
         </Card.Root>
         <Card.Root width="800px" variant={"elevated"} key={"elevated"}>
@@ -295,7 +300,6 @@ const LandingPage = () => {
           </Card.Body>
         </Card.Root>
       </Stack>
-
       {/* About Us */}
       <Stack
         gap="4"
@@ -318,7 +322,7 @@ const LandingPage = () => {
               textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
               paddingBottom="100px"
               paddingTop="40px"
-              sx={{
+              style={{
                 WebkitTextStroke: "1px black",
               }}
               fontFamily="poppins"
@@ -348,7 +352,7 @@ const LandingPage = () => {
                     fontSize="50px"
                     textAlign="center"
                     textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    sx={{
+                    style={{
                       WebkitTextStroke: "1px black",
                     }}
                     fontFamily="poppins"
@@ -398,7 +402,7 @@ const LandingPage = () => {
                     fontSize="50px"
                     textAlign="center"
                     textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    sx={{
+                    style={{
                       WebkitTextStroke: "1px black",
                     }}
                     fontFamily="poppins"
@@ -447,7 +451,7 @@ const LandingPage = () => {
                     fontSize="50px"
                     textAlign="center"
                     textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    sx={{
+                    style={{
                       WebkitTextStroke: "1px black",
                     }}
                     fontFamily="poppins"
@@ -497,7 +501,7 @@ const LandingPage = () => {
                     fontSize="50px"
                     textAlign="center"
                     textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    sx={{
+                    style={{
                       WebkitTextStroke: "1px black",
                     }}
                     fontFamily="poppins"
@@ -590,14 +594,12 @@ const LandingPage = () => {
                 backgroundImage={`url(${card.image})`}
               >
                 <Container
-                  size="container.lg"
                   height="600px"
                   position="relative"
                   display="flex"
                   justifyContent="center"
                 >
                   <Stack
-                    spacing={6}
                     w={"full"}
                     maxW={"lg"}
                     position="absolute"

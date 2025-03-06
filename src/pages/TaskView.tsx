@@ -21,7 +21,7 @@ interface TaskHistoryWithKid {
     name: string;
     parent_id: number;
     completed: boolean;
-    created_by: number;
+    currency: number;
   } | null;
 }
 
@@ -78,11 +78,12 @@ const TaskView: React.FC = () => {
           name: string;
           parent_id: number;
           completed: boolean;
-          created_by: number;
+          currency: number;
         },
       }));
 
       console.log("Filtered Tasks Data:", filteredTasks); // ✅ Debugging Log
+      console.log("This is the tasks Data:", tasksData);
       setTasks(filteredTasks);
     } catch (err) {
       console.error("Error fetching tasks:", err);
@@ -120,9 +121,18 @@ const TaskView: React.FC = () => {
       if (taskHistoryError) throw new Error("Error fetching task history");
 
       // ✅ Type filteredTaskHistory correctly
-      const filteredTaskHistory: TaskHistoryWithKid[] = taskHistoryData.filter(
-        (task) => task.soc_final_kids !== null
-      );
+      const filteredTaskHistory: TaskHistoryWithKid[] = taskHistoryData
+        .map((task) => ({
+          ...task,
+          soc_final_kids: task.soc_final_kids[0] as {
+            id: number;
+            name: string;
+            parent_id: number;
+            completed: boolean;
+            currency: number;
+          },
+        }))
+        .filter((task) => task.soc_final_kids !== null);
       console.log("Filtered Task History Data:", filteredTaskHistory); // ✅ Debugging Log
       setTaskHistory(filteredTaskHistory);
       // ✅ Step 3: Remove tasks where the completed child is null (in case of bad data)
