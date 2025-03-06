@@ -70,7 +70,7 @@ const LandingPage = () => {
       <Stack
         p={8}
         backgroundColor={"#80CBC4"}
-        dislay="flex"
+        display="flex"
         flexDirection="row"
         justifyContent="space-between"
         width="100vw"
