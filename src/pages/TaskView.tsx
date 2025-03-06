@@ -277,7 +277,7 @@ const TaskView: React.FC = () => {
 
   return (
     <ProtectedRoute>
-      <Box p={6}>
+      <Box p={6} fontFamily= "'Poppins', sans-serif">
         <Heading mb={4} style={{ fontSize: "1.875rem", fontWeight: "bold" }}>
           Task View
         </Heading>
@@ -288,34 +288,44 @@ const TaskView: React.FC = () => {
           p={4}
           rounded="md"
           mb={4}
-          borderWidth="1px"
-          borderColor="#80CBC4"
+          // borderWidth="1px"
+          // borderColor="#80CBC4"
           shadow="lg"
         >
-          <Heading size="md" mb={2} style={{ fontWeight: "bold" }}>
+          <Heading size="xl" mb={2} style={{ fontWeight: "bold" }}>
             Create Task
           </Heading>
-          <div>
+          <Box p={2}
+              mt={2}
+              mb={2}>
             <label htmlFor="taskName" style={{ fontWeight: "bold" }}>
               Task Name
             </label>
             <Input
+              p={2}
+              m={2}
               id="taskName"
               value={taskName}
+              bg="white"
               onChange={(e) => setTaskName(e.target.value)}
               placeholder="Task Name"
               variant="outline"
-              _hover={{ borderColor: "#80CBC4", borderWidth: "2px" }}
+              _hover={{ borderColor: "#80CBC4", borderWidth: "1px" }}
             />
-          </div>
+          </Box>
 
-          <div>
+          <Box p={2}
+              mt={2}
+              mb={2}>
             <label htmlFor="rewardValue" style={{ fontWeight: "bold" }}>
               Reward Value
             </label>
             <Input
+              p={2}
+              m={2}
               id="rewardValue"
               type="number"
+              bg="white"
               value={rewardValue}
               onChange={(e) => setRewardValue(parseInt(e.target.value, 10))}
               placeholder="Reward Value"
@@ -323,12 +333,16 @@ const TaskView: React.FC = () => {
               variant="outline"
               _hover={{ borderColor: "#80CBC4", borderWidth: "2px" }}
             />
-          </div>
+          </Box>
 
           <div>
-            <label htmlFor="kidSelect" style={{ fontWeight: "bold" }}>
+            <Box p={2}
+              mt={2}>
+                <Box p={2}>
+            <label htmlFor="kidSelect" style={{ fontWeight: "bold" }} >
               Assign to Kid
             </label>
+            </Box>
             <select
               id="kidSelect"
               value={selectedKidId}
@@ -353,17 +367,18 @@ const TaskView: React.FC = () => {
                 </option>
               ))}
             </select>
+            </Box>
           </div>
 
           <Button
             colorScheme="teal"
             onClick={createTask}
             mt={3}
-            bg="white"
-            color="black"
+            bg="purple"
+            color="white"
             shadow="md"
-            _hover={{ bg: "#80CBC4", color: "black" }}
-            _active={{ bg: "#80CBC4" }}
+            _hover={{ bg: "indigo", color: "white" }}
+            _active={{ bg: "indigo" }}
           >
             {loading ? <Spinner size="sm" /> : "Create Task"}
           </Button>
@@ -372,6 +387,7 @@ const TaskView: React.FC = () => {
         {/* ---------------------------- Task List --------------------------------- */}
         {tasks.length > 0 && (
           <Box mb={6}>
+
             <Box display="flex" alignItems="center">
               <Heading size="md" mb={2} style={{ fontWeight: "bold" }}>
                 Assigned Tasks
@@ -407,11 +423,11 @@ const TaskView: React.FC = () => {
                   colorScheme="teal"
                   onClick={() => completeTask(task)}
                   mt={2}
-                  bg="white"
-                  color="black"
+                  bg="purple"
+                  color="white"
                   shadow="md"
-                  _hover={{ bg: "#80CBC4" }}
-                  _active={{ bg: "#80CBC4" }}
+                  _hover={{ bg: "indigo", color: "white" }}
+                  _active={{ bg: "indigo" }}
                 >
                   {loadingTaskId === task.id ? (
                     <Spinner size="sm" />
@@ -427,19 +443,18 @@ const TaskView: React.FC = () => {
         {/* ----------------------------- Task History Section ----------------------------- */}
         {taskHistory.length > 0 && (
           <Box mt={6}>
-            <Heading size="md" mb={2} style={{ fontWeight: "bold" }}>
+            <Heading size="xl" mb={2} style={{ fontWeight: "bold" }}>
               Task History
             </Heading>
             {taskHistory.map((task) => (
               <Box
                 key={task.id}
                 p={3}
-                bg="#B2EBF2"
+                bg="gray.300"
                 rounded="md"
                 mb={2}
-                borderWidth="1px"
-                borderColor="#80CBC4"
-                shadow="lg"
+                shadow="md"
+                color= "gray.500"
               >
                 <Text fontWeight="bold">{task.name}</Text>
                 <Text>

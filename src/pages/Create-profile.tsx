@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import { Box, Heading, Input, Button, Text } from "@chakra-ui/react";
+import { FaArrowLeft } from "react-icons/fa";
 import { Slider } from "../components/ui/slider";
 
 export default function CreateProfile() {
@@ -110,6 +111,20 @@ export default function CreateProfile() {
       px={4}
       bg="#80CBC4"
     >
+      <Button
+        position="absolute"
+        top="2.5%"
+        left="2.5%"
+        backgroundColor="#80cbc4"
+        onClick={() => navigate("/")}
+        _hover={{
+          scale: "1.5",
+          transform: "scale(1.01)",
+          transition: "all 0.2s ease-in-out",
+        }}
+      >
+        <FaArrowLeft />
+      </Button>
       <Box
         p={12}
         borderWidth="1px"
@@ -252,6 +267,19 @@ export default function CreateProfile() {
         >
           {loading ? "Creating Profile..." : "Sign Up & Create Profile"}
         </Button>
+        <Text fontFamily={"poppins"} textAlign={"center"} marginTop="10px">
+          Already have an account?{" "}
+          <p onClick={() => navigate("/login")}>
+            <Text
+              as="span"
+              cursor="pointer"
+              textDecoration="underline"
+              color="blue.500"
+            >
+              Sign In
+            </Text>
+          </p>
+        </Text>
       </Box>
     </Box>
   );

@@ -61,9 +61,9 @@ const ParentProfile: React.FC = () => {
   return (
     <ProtectedRoute>
       <Box
+        bg="white"
         w="100vw"
         h="100vh"
-        bg="white"
         display="flex"
         flexDirection={{ base: "column", md: "row" }} // Stack vertically on mobile, row on larger screens
         justifyContent="flex-start"
@@ -74,7 +74,6 @@ const ParentProfile: React.FC = () => {
           w={{ base: "90%", md: "65%" }}
           mt={6}
           ml={{ base: 0, md: 6 }}
-          bg="#80CBC4"
           p={6}
           borderRadius="md"
           bg="transparent"
@@ -90,6 +89,7 @@ const ParentProfile: React.FC = () => {
             gap={6}
             wrap="wrap"
             bg="transparent"
+            color="black"
           >
             <Stack align="center" spacing={4} bg="transparent">
               <Heading
@@ -146,6 +146,7 @@ const ParentProfile: React.FC = () => {
               borderRadius="md"
               borderWidth="2px"
               borderColor="#80CBC4"
+              color="black"
             >
               My Children
             </Heading>
@@ -153,6 +154,7 @@ const ParentProfile: React.FC = () => {
               <Box
                 key={kid.id}
                 bg="white"
+                color="black"
                 p={3}
                 borderRadius="md"
                 border="1px solid #80CBC4"

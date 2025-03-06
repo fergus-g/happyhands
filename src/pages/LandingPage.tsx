@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Button,
   Card,
@@ -43,6 +43,31 @@ const LandingPage = () => {
   const top = useBreakpointValue({ base: "90%", md: "50%" });
   const side = useBreakpointValue({ base: "30%", md: "40px" });
 
+  const downloadRef = useRef(null);
+  const featuresRef = useRef(null);
+  const testimonialsRef = useRef(null);
+
+  const scrolltoDownload = () => {
+    downloadRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const scrollToFeatures = () => {
+    featuresRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const scrollToTestimonials = () => {
+    testimonialsRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
   const cards = [
     {
       title: "Sarah Michaels",
@@ -79,19 +104,50 @@ const LandingPage = () => {
         top="0"
         zIndex="1000"
       >
-        <Heading size="2xl" fontFamily="sans-serif">
-          Happy Hands
-        </Heading>
+        <img
+          src="../../public/happyhands.png"
+          style={{
+            width: "100px",
+            height: "80px",
+            position: "relative",
+            marginTop: "-20px",
+          }}
+        />
         <Box display="flex" justifyContent="flex-end" gap={2}>
           <Button
             backgroundColor={"purple"}
             onClick={() => navigate("/create-profile")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            border="solid"
+            borderColor="indigo"
           >
             Sign Up
           </Button>
-          <Button backgroundColor={"purple"}>Download</Button>
-          <Button backgroundColor={"purple"}>Features</Button>
-          <Button backgroundColor={"purple"}>Testimonials</Button>
+          <Button
+            backgroundColor={"purple"}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            onClick={scrolltoDownload}
+          >
+            Download
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            onClick={scrollToFeatures}
+          >
+            Features
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            onClick={scrollToTestimonials}
+          >
+            Testimonials
+          </Button>
         </Box>
       </Stack>
       {/* Title Card */}
@@ -107,6 +163,7 @@ const LandingPage = () => {
             display="flex"
             flexDirection="row"
             justifyContent="space-between"
+            marginLeft="100px"
           >
             <Stack
               justifyContent="center"
@@ -122,6 +179,7 @@ const LandingPage = () => {
                 }}
                 alignSelf="center"
                 textAlign="center"
+                fontFamily="poppins"
               >
                 The App to get Kids off Apps!
               </Card.Description>
@@ -129,13 +187,20 @@ const LandingPage = () => {
                 <Button
                   backgroundColor={"purple"}
                   onClick={() => navigate("/create-profile")}
+                  fontFamily="poppins"
+                  _hover={{ backgroundColor: "indigo" }}
                 >
                   Sign Up
                 </Button>
                 <Button
-                  backgroundColor={"purple"}
+                  backgroundColor={"#b4ebe6"}
+                  color="purple"
                   onClick={() => navigate("/login")}
                   marginLeft="5px"
+                  fontFamily="poppins"
+                  border="solid"
+                  borderColor="purple"
+                  _hover={{ backgroundColor: "indigo" }}
                 >
                   Sign In
                 </Button>
@@ -158,16 +223,22 @@ const LandingPage = () => {
         direction="row"
         wrap="wrap"
         justifyContent="center"
-        marginTop="40px"
+        marginTop="100px"
         width="100vw"
+        ref={downloadRef}
       >
-        <Card.Root variant={"elevated"} key={"elevated"} width="800px">
-          <Card.Body gap="2">
-            <Card.Title mb="2" alignSelf="center">
+        <Card.Root
+          variant={"elevated"}
+          key={"elevated"}
+          width="800px"
+          height="400px"
+        >
+          <Card.Body gap="2" alignContent="center" justifyContent="center">
+            <Card.Title mb="2" alignSelf="center" fontFamily="poppins">
               We are on the app store
             </Card.Title>
-            <Card.Description alignSelf="center">
-              <HStack paddingLeft="20px">
+            <Card.Description alignSelf="center" fontFamily="poppins">
+              <HStack paddingLeft="40px" marginBottom="5px">
                 <FaStar color="gold" size={24} />
                 <FaStar color="gold" size={24} />
                 <FaStar color="gold" size={24} />
@@ -177,7 +248,12 @@ const LandingPage = () => {
               Rating 4.75/5 from 200 Customers
             </Card.Description>
           </Card.Body>
-          <Card.Footer justifyContent="flex-end" alignSelf="center">
+
+          <Card.Footer
+            justifyContent="flex-end"
+            alignSelf="center"
+            paddingBottom="50px"
+          >
             <Button
               as="a"
               href="https://apps.apple.com"
@@ -186,6 +262,7 @@ const LandingPage = () => {
               colorScheme="blackAlpha"
               variant="solid"
               size="lg"
+              fontFamily="poppins"
             >
               <FontAwesomeIcon icon={faApple} />
               Download on the App Store
@@ -198,6 +275,8 @@ const LandingPage = () => {
               colorScheme="blue"
               variant="solid"
               size="lg"
+              fontFamily="poppins"
+              width="293px"
             >
               <FontAwesomeIcon icon={faGooglePlay} />
               Get it on Google Play
@@ -206,7 +285,7 @@ const LandingPage = () => {
         </Card.Root>
         <Card.Root width="800px" variant={"elevated"} key={"elevated"}>
           <Card.Body gap="2" alignContent="center" justifyContent="center">
-            <Card.Description fontSize="20px">
+            <Card.Description fontSize="20px" fontFamily="poppins">
               Available for download from app stores, get ouit app for mobiles,
               desktops, tablets and more!
               <br />
@@ -242,17 +321,21 @@ const LandingPage = () => {
               sx={{
                 WebkitTextStroke: "1px black",
               }}
+              fontFamily="poppins"
             >
               Why choose Happy Hands?
             </Card.Description>
-            <Stack flexDirection="row">
+            <Stack flexDirection="row" ref={featuresRef}>
               <Card.Root
                 width="25vw"
                 variant={"elevated"}
                 key={"elevated"}
                 backgroundColor={"#80CBC4"}
-                border="solid"
-                borderColor={"#FFB433"}
+                _hover={{
+                  transform: "scale(1.01)",
+                  transition: "all 0.2s ease-in-out",
+                  shadow: "xl",
+                }}
               >
                 <Card.Body
                   gap="2"
@@ -268,6 +351,7 @@ const LandingPage = () => {
                     sx={{
                       WebkitTextStroke: "1px black",
                     }}
+                    fontFamily="poppins"
                   >
                     Customisable
                   </Card.Description>
@@ -283,6 +367,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
+                    fontFamily="poppins"
                   >
                     Tailor tasks, rewards, and themes to suit your family's
                     needs.
@@ -296,8 +381,11 @@ const LandingPage = () => {
                 variant={"elevated"}
                 key={"elevated"}
                 backgroundColor={"#80CBC4"}
-                border="solid"
-                borderColor={"#FFB433"}
+                _hover={{
+                  transform: "scale(1.01)",
+                  transition: "all 0.2s ease-in-out",
+                  shadow: "xl",
+                }}
               >
                 <Card.Body
                   gap="2"
@@ -313,6 +401,7 @@ const LandingPage = () => {
                     sx={{
                       WebkitTextStroke: "1px black",
                     }}
+                    fontFamily="poppins"
                   >
                     Interactive
                   </Card.Description>
@@ -327,6 +416,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
+                    fontFamily="poppins"
                   >
                     Kids stay engaged with interactive progress tracking and
                     rewards.
@@ -340,8 +430,11 @@ const LandingPage = () => {
                 variant={"elevated"}
                 key={"elevated"}
                 backgroundColor={"#80CBC4"}
-                border="solid"
-                borderColor={"#FFB433"}
+                _hover={{
+                  transform: "scale(1.01)",
+                  transition: "all 0.2s ease-in-out",
+                  shadow: "xl",
+                }}
               >
                 <Card.Body
                   gap="2"
@@ -357,6 +450,7 @@ const LandingPage = () => {
                     sx={{
                       WebkitTextStroke: "1px black",
                     }}
+                    fontFamily="poppins"
                   >
                     Easy to Use
                   </Card.Description>
@@ -372,6 +466,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
+                    fontFamily="poppins"
                   >
                     A simple, intuitive interface makes managing tasks
                     effortless.
@@ -385,8 +480,11 @@ const LandingPage = () => {
                 variant={"elevated"}
                 key={"elevated"}
                 backgroundColor={"#80CBC4"}
-                border="solid"
-                borderColor={"#FFB433"}
+                _hover={{
+                  transform: "scale(1.01)",
+                  transition: "all 0.2s ease-in-out",
+                  shadow: "xl",
+                }}
               >
                 <Card.Body
                   gap="2"
@@ -402,6 +500,7 @@ const LandingPage = () => {
                     sx={{
                       WebkitTextStroke: "1px black",
                     }}
+                    fontFamily="poppins"
                   >
                     Fun Features
                   </Card.Description>
@@ -416,6 +515,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
+                    fontFamily="poppins"
                   >
                     Unlock achievements, collect badges, and enjoy playful
                     animations!
@@ -437,6 +537,8 @@ const LandingPage = () => {
           overflow={"hidden"}
           margin="auto"
           borderRadius="10px"
+          marginTop="100px"
+          ref={testimonialsRef}
         >
           {/* CSS files for react-slick */}
           <link
@@ -487,7 +589,6 @@ const LandingPage = () => {
                 backgroundSize="cover"
                 backgroundImage={`url(${card.image})`}
               >
-                {/* This is the block you need to change, to customize the caption */}
                 <Container
                   size="container.lg"
                   height="600px"
@@ -500,19 +601,25 @@ const LandingPage = () => {
                     w={"full"}
                     maxW={"lg"}
                     position="absolute"
-                    top="50%"
+                    top="25%"
+                    left="10%"
                     transform="translate(0, -50%)"
                     backgroundColor="rgba(255, 255, 255, 0.5)"
-                    padding="10px"
+                    padding="40px"
                     borderRadius="10px"
                   >
                     <Heading
                       fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
                       marginBottom="10px"
+                      fontFamily="poppins"
                     >
                       {card.title}
                     </Heading>
-                    <Text fontSize={{ base: "md", lg: "lg" }} color="GrayText">
+                    <Text
+                      fontSize={{ base: "md", lg: "lg" }}
+                      color="black"
+                      fontFamily="poppins"
+                    >
                       {card.text}
                     </Text>
                   </Stack>
@@ -521,6 +628,30 @@ const LandingPage = () => {
             ))}
           </Slider>
         </Box>
+      </Stack>
+      {/* Footer */}
+      <Stack
+        p={8}
+        backgroundColor={"#80CBC4"}
+        flexDirection="row"
+        alignContent="center"
+        justifyContent="space-between"
+        width="100vw"
+        marginTop="100px"
+        height="50px"
+        bottom="0"
+      >
+        <img
+          src="../../public/happyhands.png"
+          style={{
+            width: "50px",
+            height: "40px",
+            position: "relative",
+            marginTop: "-20px",
+          }}
+        />
+
+        <Text font="poppins"> Built using React, Typescript by 404 BNF</Text>
       </Stack>
     </>
   );
