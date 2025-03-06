@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Button,
   Card,
@@ -42,6 +42,31 @@ const LandingPage = () => {
   const [slider, setSlider] = React.useState<Slider | null>(null);
   const top = useBreakpointValue({ base: "90%", md: "50%" });
   const side = useBreakpointValue({ base: "30%", md: "40px" });
+
+  const downloadRef = useRef(null);
+  const featuresRef = useRef(null);
+  const testimonialsRef = useRef(null);
+
+  const scrolltoDownload = () => {
+    downloadRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const scrollToFeatures = () => {
+    featuresRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const scrollToTestimonials = () => {
+    testimonialsRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
 
   const cards = [
     {
@@ -94,6 +119,8 @@ const LandingPage = () => {
             onClick={() => navigate("/create-profile")}
             fontFamily="poppins"
             _hover={{ backgroundColor: "indigo" }}
+            border="solid"
+            borderColor="indigo"
           >
             Sign Up
           </Button>
@@ -101,6 +128,7 @@ const LandingPage = () => {
             backgroundColor={"purple"}
             fontFamily="poppins"
             _hover={{ backgroundColor: "indigo" }}
+            onClick={scrolltoDownload}
           >
             Download
           </Button>
@@ -108,6 +136,7 @@ const LandingPage = () => {
             backgroundColor={"purple"}
             fontFamily="poppins"
             _hover={{ backgroundColor: "indigo" }}
+            onClick={scrollToFeatures}
           >
             Features
           </Button>
@@ -115,6 +144,7 @@ const LandingPage = () => {
             backgroundColor={"purple"}
             fontFamily="poppins"
             _hover={{ backgroundColor: "indigo" }}
+            onClick={scrollToTestimonials}
           >
             Testimonials
           </Button>
@@ -163,10 +193,13 @@ const LandingPage = () => {
                   Sign Up
                 </Button>
                 <Button
-                  backgroundColor={"purple"}
+                  backgroundColor={"#b4ebe6"}
+                  color="purple"
                   onClick={() => navigate("/login")}
                   marginLeft="5px"
                   fontFamily="poppins"
+                  border="solid"
+                  borderColor="purple"
                   _hover={{ backgroundColor: "indigo" }}
                 >
                   Sign In
@@ -192,6 +225,7 @@ const LandingPage = () => {
         justifyContent="center"
         marginTop="100px"
         width="100vw"
+        ref={downloadRef}
       >
         <Card.Root
           variant={"elevated"}
@@ -291,7 +325,7 @@ const LandingPage = () => {
             >
               Why choose Happy Hands?
             </Card.Description>
-            <Stack flexDirection="row">
+            <Stack flexDirection="row" ref={featuresRef}>
               <Card.Root
                 width="25vw"
                 variant={"elevated"}
@@ -503,6 +537,8 @@ const LandingPage = () => {
           overflow={"hidden"}
           margin="auto"
           borderRadius="10px"
+          marginTop="100px"
+          ref={testimonialsRef}
         >
           {/* CSS files for react-slick */}
           <link
@@ -592,6 +628,30 @@ const LandingPage = () => {
             ))}
           </Slider>
         </Box>
+      </Stack>
+      {/* Footer */}
+      <Stack
+        p={8}
+        backgroundColor={"#80CBC4"}
+        flexDirection="row"
+        alignContent="center"
+        justifyContent="space-between"
+        width="100vw"
+        marginTop="100px"
+        height="50px"
+        bottom="0"
+      >
+        <img
+          src="../../public/happyhands.png"
+          style={{
+            width: "50px",
+            height: "40px",
+            position: "relative",
+            marginTop: "-20px",
+          }}
+        />
+
+        <Text font="poppins"> Built using React, Typescript by 404 BNF</Text>
       </Stack>
     </>
   );

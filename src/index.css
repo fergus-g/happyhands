@@ -1,8 +1,9 @@
-/* 
-* {
-  background-color: white;
-  color: black;
-}
 body {
-  background-color: white;
-} */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-y: scroll; /* Always show vertical scrollbar */
+}
+
+/* Hide scrollbar in WebKit browsers (Chrome, Safari) */
+body::-webkit-scrollbar {
+  display: none;
+}
