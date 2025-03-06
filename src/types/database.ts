@@ -21,6 +21,7 @@ export interface Task {
   created_by: number;
   assigned_to: number;
   reward_value: number;
+  completed: boolean;
 }
 
 export interface Reward {

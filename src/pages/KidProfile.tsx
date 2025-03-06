@@ -81,15 +81,21 @@ const KidProfile: React.FC = () => {
 
     fetchKidData();
   }, [id]);
-
   const markTaskComplete = async (taskId: number) => {
+    console.log("✅ Marking task as complete:", taskId); // Log Task ID
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("soc_final_tasks")
         .update({ completed: true })
-        .eq("id", taskId);
+        .eq("id", taskId)
+        .select(); // Fetch updated row for confirmation
 
-      if (error) throw new Error("Error marking task as complete");
+      if (error) {
+        console.error("❌ Error marking task as complete:", error);
+        return;
+      }
+
+      console.log("🆕 Updated Task Data from Supabase:", data); // Check updated task
 
       setTasks((prevTasks) =>
         prevTasks.map((task) =>

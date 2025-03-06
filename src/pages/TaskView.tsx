@@ -64,8 +64,8 @@ const TaskView: React.FC = () => {
       const { data: tasksData, error: tasksError } = await supabase
         .from("soc_final_tasks")
         .select(
-          "id, name, assigned_to, reward_value, soc_final_kids!inner(id, name, parent_id)"
-        ) // Fix here
+          "id, name, assigned_to, reward_value, completed, soc_final_kids!inner(id, name, parent_id)" // ✅ Added 'completed' here
+        )
         .eq("soc_final_kids.parent_id", parentId);
 
       if (tasksError) throw new Error("Error fetching tasks");
