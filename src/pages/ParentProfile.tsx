@@ -65,7 +65,7 @@ const ParentProfile: React.FC = () => {
         w="100vw"
         h="100vh"
         display="flex"
-        flexDirection={{ base: "column", md: "row" }} // Stack vertically on mobile, row on larger screens
+        flexDirection={{ base: "column", md: "row" }}
         justifyContent="flex-start"
         alignItems="flex-start"
         p={6}
@@ -87,11 +87,10 @@ const ParentProfile: React.FC = () => {
             flexDirection={{ base: "column", md: "column" }}
             alignItems="center"
             gap={6}
-            wrap="wrap"
             bg="transparent"
             color="black"
           >
-            <Stack align="center" spacing={4} bg="transparent">
+            <Stack align="center" bg="transparent">
               <Heading
                 as="h2"
                 size="lg"
@@ -199,7 +198,6 @@ const ParentProfile: React.FC = () => {
             Actions
           </Heading>
           <Stack
-            spacing={4}
             align="center"
             bg="#80CBC4" // Match the parent box's background color
           >
