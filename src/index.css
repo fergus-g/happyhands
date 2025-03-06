@@ -1,10 +1,23 @@
 body {
   overflow-x: hidden;
   overflow-y: scroll;
+  position: relative; /* Add this to position the pseudo-element correctly */
+}
+
+body::before {
+  content: ""; /* Required to create a pseudo-element */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-image: url("../public/bg-img.png");
   background-size: 200px;
   background-repeat: repeat;
   background-position: center;
+  opacity: 0.15; /* Adjust this value to change the opacity */
+  z-index: -1; /* Ensure the image stays behind the content */
+  pointer-events: none; /* Prevent the background from blocking interaction */
 }
 
 body::-webkit-scrollbar {
