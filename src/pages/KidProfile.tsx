@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
+import { Box, Heading, Text, Button, Stack, Avatar, AvatarGroup } from '@chakra-ui/react';
 import { Kid, Reward } from "../types/database";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 
@@ -80,41 +81,102 @@ const KidProfile: React.FC = () => {
 
   return (
     <ProtectedRoute>
-      <div className="p-6">
-        <h1 className="text-2xl font-bold">{kid.name}'s Profile</h1>
-        <p>
+    <Box display="flex" justifyContent="center" alignItems="center" p={6} shadow="md" bg="#80CBC4">
+      <Box display="flex" w="50%" justifyContent="center" alignItems="center" p={3} shadow="md" bg="white" borderRadius="xl">
+      <Stack p={6} align="center" w="full" bg="white">
+        {/* Kid's Profile Header */}
+        <Heading as="h2" size="2xl" fontWeight="bold" bg="white" p={6} borderRadius="md" w="full" textAlign="center">
+          {kid.name}'s Profile
+          <AvatarGroup  p={4}>
+            <Avatar.Root>
+              <Avatar.Fallback name={`${kid.name}'s Avatar`}/>
+              <Avatar.Image src="https://i.ytimg.com/vi/eXwZMAz9Vh8/maxresdefault.jpg"/>
+            </Avatar.Root>
+          </AvatarGroup>
+        </Heading>
+  
+        {/* Coins Info */}
+        <Text textAlign="center" bg="white">
           <strong>Coins:</strong> {kid.currency}
-        </p>
-
+        </Text>
+  
         {/* ------------------ Reward Redemption Section --------------------*/}
-        <h2 className="text-xl font-bold mt-4">Redeem Rewards</h2>
+        <Heading as="h3" size="md" fontWeight="bold" textAlign="center" mt={4} bg="white">
+          Redeem Rewards
+        </Heading>
+  
         {rewards.length > 0 ? (
-          <ul>
+          <Stack p={4} w="full" align="center" >
             {rewards.map((reward) => (
-              <li key={reward.id} className="p-3 bg-gray-100 rounded-md mb-2">
-                <p>
+              <Box key={reward.id} p={3} bg="white" borderRadius="xl"
+                w="full" textAlign="center" shadow="md" _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}>
+                <Text  bg="white" p={3} mt={4}>
                   <strong>{reward.name}</strong> - {reward.cost} coins
-                </p>
-                <button
-                  className={`px-4 py-2 rounded ${
-                    kid.currency >= reward.cost
-                      ? "bg-blue-500 text-white hover:bg-blue-600"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
+                </Text>
+                <Button
+                  px={4}
+                  py={2}
+                  borderRadius="md"
+                  bg={kid.currency >= reward.cost ? "#80CBC4" : "gray.300"}
+                  color={kid.currency >= reward.cost ? "white" : "gray.500"}
+                  _hover={{
+                    bg: kid.currency >= reward.cost ? "#6AC0B8" : "gray.300",
+                  }}
                   onClick={() => redeemReward(reward)}
                   disabled={kid.currency < reward.cost || loading}
                 >
                   {loading ? "Processing..." : "Redeem"}
-                </button>
-              </li>
+                </Button>
+              </Box>
             ))}
-          </ul>
+          </Stack>
         ) : (
-          <p>No rewards available.</p>
+          <Text>No rewards available.</Text>
         )}
-      </div>
-    </ProtectedRoute>
-  );
-};
+      </Stack>
+      </Box>
+    </Box>
+  </ProtectedRoute>
+    )}
+   
+  
+
+//     <ProtectedRoute>
+//       <div className="p-6">
+//         <h1 className="text-2xl font-bold">{kid.name}'s Profile</h1>
+//         <p>
+//           <strong>Coins:</strong> {kid.currency}
+//         </p>
+
+//         {/* ------------------ Reward Redemption Section --------------------*/}
+//         <h2 className="text-xl font-bold mt-4">Redeem Rewards</h2>
+//         {rewards.length > 0 ? (
+//           <ul>
+//             {rewards.map((reward) => (
+//               <li key={reward.id} className="p-3 bg-gray-100 rounded-md mb-2">
+//                 <p>
+//                   <strong>{reward.name}</strong> - {reward.cost} coins
+//                 </p>
+//                 <button
+//                   className={`px-4 py-2 rounded ${
+//                     kid.currency >= reward.cost
+//                       ? "bg-blue-500 text-white hover:bg-blue-600"
+//                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
+//                   }`}
+//                   onClick={() => redeemReward(reward)}
+//                   disabled={kid.currency < reward.cost || loading}
+//                 >
+//                   {loading ? "Processing..." : "Redeem"}
+//                 </button>
+//               </li>
+//             ))}
+//           </ul>
+//         ) : (
+//           <p>No rewards available.</p>
+//         )}
+//       </div>
+//     </ProtectedRoute>
+//   );
+// };
 
 export default KidProfile;

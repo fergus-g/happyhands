@@ -31,7 +31,7 @@ export default function Login() {
       setError(error.message);
     } else {
       await refreshUser();
-      navigate("/");
+      navigate("/dashboard");
     }
   };
 

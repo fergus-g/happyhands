@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
+import { Box, Heading, Input, Button, Text } from "@chakra-ui/react";
 import { Slider } from "../components/ui/slider";
 
 export default function CreateProfile() {
@@ -101,94 +102,157 @@ export default function CreateProfile() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="p-8 border shadow-md rounded-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center mb-6">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minH="100vh"
+      px={4}
+      bg="#80CBC4"
+    >
+      <Box
+        p={12}
+        borderWidth="1px"
+        shadow="lg"
+        borderRadius="xl"
+        maxW="md"
+        w="full"
+        bg="white"
+      >
+        <Heading
+          fontSize="1.875rem"
+          fontWeight="bold"
+          textAlign="center"
+          mb={6}
+        >
           Create Your Profile
-        </h2>
+        </Heading>
 
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {error && (
+          <Text color="red.500" fontSize="sm" mb={4}>
+            {error}
+          </Text>
+        )}
 
-        {/*------------------------------- Email & Password Fields ---------------------------------------*/}
-        <input
-          type="email"
+        <Input
           placeholder="Email"
-          className="w-full p-2 border rounded mb-3"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          mb={3}
+          shadow="md"
+          bg="white"
+          _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
           required
         />
-        <input
-          type="password"
+        <Input
           placeholder="Password"
-          className="w-full p-2 border rounded mb-3"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          mb={3}
+          shadow="md"
+          bg="white"
+          _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
           required
         />
-        <input
-          type="password"
+        <Input
           placeholder="Confirm Password"
-          className="w-full p-2 border rounded mb-3"
+          type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          mb={3}
+          shadow="md"
+          bg="white"
+          _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
           required
         />
 
-        {/*--------------------- Parent Information ------------------------------------*/}
-        <h3 className="text-lg font-bold mb-2">Parent Information</h3>
-        <input
-          type="text"
+        <Heading fontSize="lg" fontWeight="bold" mb={2}>
+          Parent Information
+        </Heading>
+        <Input
           placeholder="Parent 1 Name"
-          className="w-full p-2 border rounded mb-3"
+          type="text"
           value={parentName}
           onChange={(e) => setParentName(e.target.value)}
+          mb={3}
+          shadow="md"
+          bg="white"
+          _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
           required
         />
-        <input
-          type="text"
+        <Input
           placeholder="Parent 2 Name (Optional)"
-          className="w-full p-2 border rounded mb-3"
+          type="text"
           value={parent2Name}
           onChange={(e) => setParent2Name(e.target.value)}
+          mb={3}
+          shadow="md"
+          bg="white"
+          _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
         />
 
-        {/*---------------------------- Kids Information (Displayed as "Children")------------------------ */}
-        <h3 className="text-lg font-bold mb-2">Children Information</h3>
+        <Heading fontSize="lg" fontWeight="bold" mb={2}>
+          Children Information
+        </Heading>
         {kids.map((kid, index) => (
-          <div key={index} className="mb-3">
-            <input
-              type="text"
-              placeholder="Child's Name"
-              className="w-full p-2 border rounded mb-2"
-              value={kid.name}
-              onChange={(e) =>
-                setKids(
-                  kids.map((c, i) =>
-                    i === index ? { ...c, name: e.target.value } : c
-                  )
+          <Input
+            key={index}
+            placeholder="Child's Name"
+            type="text"
+            value={kid.name}
+            onChange={(e) =>
+              setKids(
+                kids.map((c, i) =>
+                  i === index ? { ...c, name: e.target.value } : c
                 )
-              }
-              required
-            />
-          </div>
+              )
+            }
+            mb={3}
+            shadow="md"
+            bg="white"
+            _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
+            required
+          />
         ))}
 
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded mb-3 cursor-pointer hover:bg-blue-600 transition"
-          onClick={() => setKids([...kids, { name: "" }])}
+        <Button
+          type="submit"
+          colorScheme="blue"
+          width="full"
+          size="lg"
+          color="black"
+          shadow="md"
+          disabled={loading}
+          bg="white"
+          justifyContent="center"
+          alignItems="center"
+          _hover={{ bg: "#B4EBE6" }}
+          mt={2}
+          onClick={handleSignUp}
         >
           + Add Another Child
-        </button>
+        </Button>
 
-        <button
-          className="w-full bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600 transition"
-          onClick={handleSignUp}
+        <Button
+          type="submit"
+          colorScheme="blue"
+          width="full"
+          size="lg"
+          color="black"
+          shadow="md"
           disabled={loading}
+          bg="white"
+          justifyContent="center"
+          alignItems="center"
+          _hover={{ bg: "#B4EBE6" }}
+          mt={2}
+          onClick={handleSignUp}
         >
           {loading ? "Creating Profile..." : "Sign Up & Create Profile"}
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Box>
   );
 }
