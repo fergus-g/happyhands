@@ -79,19 +79,43 @@ const LandingPage = () => {
         top="0"
         zIndex="1000"
       >
-        <Heading size="2xl" fontFamily="sans-serif">
+        {/* <Heading size="2xl" fontFamily="poppins">
           Happy Hands
-        </Heading>
+        </Heading> */}
+        <img
+          src="../../public/happyhands.png"
+          style={{ width: "80px", height: "50px" }}
+        />
         <Box display="flex" justifyContent="flex-end" gap={2}>
           <Button
             backgroundColor={"purple"}
             onClick={() => navigate("/create-profile")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
           >
             Sign Up
           </Button>
-          <Button backgroundColor={"purple"}>Download</Button>
-          <Button backgroundColor={"purple"}>Features</Button>
-          <Button backgroundColor={"purple"}>Testimonials</Button>
+          <Button
+            backgroundColor={"purple"}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+          >
+            Download
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+          >
+            Features
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+          >
+            Testimonials
+          </Button>
         </Box>
       </Stack>
       {/* Title Card */}
@@ -122,6 +146,7 @@ const LandingPage = () => {
                 }}
                 alignSelf="center"
                 textAlign="center"
+                fontFamily="poppins"
               >
                 The App to get Kids off Apps!
               </Card.Description>
@@ -129,6 +154,8 @@ const LandingPage = () => {
                 <Button
                   backgroundColor={"purple"}
                   onClick={() => navigate("/create-profile")}
+                  fontFamily="poppins"
+                  _hover={{ backgroundColor: "indigo" }}
                 >
                   Sign Up
                 </Button>
@@ -136,6 +163,8 @@ const LandingPage = () => {
                   backgroundColor={"purple"}
                   onClick={() => navigate("/login")}
                   marginLeft="5px"
+                  fontFamily="poppins"
+                  _hover={{ backgroundColor: "indigo" }}
                 >
                   Sign In
                 </Button>
@@ -158,16 +187,16 @@ const LandingPage = () => {
         direction="row"
         wrap="wrap"
         justifyContent="center"
-        marginTop="40px"
+        marginTop="100px"
         width="100vw"
       >
         <Card.Root variant={"elevated"} key={"elevated"} width="800px">
           <Card.Body gap="2">
-            <Card.Title mb="2" alignSelf="center">
+            <Card.Title mb="2" alignSelf="center" fontFamily="poppins">
               We are on the app store
             </Card.Title>
-            <Card.Description alignSelf="center">
-              <HStack paddingLeft="20px">
+            <Card.Description alignSelf="center" fontFamily="poppins">
+              <HStack paddingLeft="40px" marginBottom="5px">
                 <FaStar color="gold" size={24} />
                 <FaStar color="gold" size={24} />
                 <FaStar color="gold" size={24} />
@@ -186,6 +215,7 @@ const LandingPage = () => {
               colorScheme="blackAlpha"
               variant="solid"
               size="lg"
+              fontFamily="poppins"
             >
               <FontAwesomeIcon icon={faApple} />
               Download on the App Store
@@ -198,6 +228,8 @@ const LandingPage = () => {
               colorScheme="blue"
               variant="solid"
               size="lg"
+              fontFamily="poppins"
+              width="293px"
             >
               <FontAwesomeIcon icon={faGooglePlay} />
               Get it on Google Play
@@ -206,7 +238,7 @@ const LandingPage = () => {
         </Card.Root>
         <Card.Root width="800px" variant={"elevated"} key={"elevated"}>
           <Card.Body gap="2" alignContent="center" justifyContent="center">
-            <Card.Description fontSize="20px">
+            <Card.Description fontSize="20px" fontFamily="poppins">
               Available for download from app stores, get ouit app for mobiles,
               desktops, tablets and more!
               <br />
@@ -242,6 +274,7 @@ const LandingPage = () => {
               sx={{
                 WebkitTextStroke: "1px black",
               }}
+              fontFamily="poppins"
             >
               Why choose Happy Hands?
             </Card.Description>
@@ -251,8 +284,11 @@ const LandingPage = () => {
                 variant={"elevated"}
                 key={"elevated"}
                 backgroundColor={"#80CBC4"}
-                border="solid"
-                borderColor={"#FFB433"}
+                _hover={{
+                  transform: "scale(1.01)",
+                  transition: "all 0.2s ease-in-out",
+                  shadow: "xl",
+                }}
               >
                 <Card.Body
                   gap="2"
@@ -268,6 +304,7 @@ const LandingPage = () => {
                     sx={{
                       WebkitTextStroke: "1px black",
                     }}
+                    fontFamily="poppins"
                   >
                     Customisable
                   </Card.Description>
@@ -283,6 +320,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
+                    fontFamily="poppins"
                   >
                     Tailor tasks, rewards, and themes to suit your family's
                     needs.
@@ -296,8 +334,11 @@ const LandingPage = () => {
                 variant={"elevated"}
                 key={"elevated"}
                 backgroundColor={"#80CBC4"}
-                border="solid"
-                borderColor={"#FFB433"}
+                _hover={{
+                  transform: "scale(1.01)",
+                  transition: "all 0.2s ease-in-out",
+                  shadow: "xl",
+                }}
               >
                 <Card.Body
                   gap="2"
@@ -313,6 +354,7 @@ const LandingPage = () => {
                     sx={{
                       WebkitTextStroke: "1px black",
                     }}
+                    fontFamily="poppins"
                   >
                     Interactive
                   </Card.Description>
@@ -327,6 +369,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
+                    fontFamily="poppins"
                   >
                     Kids stay engaged with interactive progress tracking and
                     rewards.
@@ -340,8 +383,11 @@ const LandingPage = () => {
                 variant={"elevated"}
                 key={"elevated"}
                 backgroundColor={"#80CBC4"}
-                border="solid"
-                borderColor={"#FFB433"}
+                _hover={{
+                  transform: "scale(1.01)",
+                  transition: "all 0.2s ease-in-out",
+                  shadow: "xl",
+                }}
               >
                 <Card.Body
                   gap="2"
@@ -357,6 +403,7 @@ const LandingPage = () => {
                     sx={{
                       WebkitTextStroke: "1px black",
                     }}
+                    fontFamily="poppins"
                   >
                     Easy to Use
                   </Card.Description>
@@ -372,6 +419,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
+                    fontFamily="poppins"
                   >
                     A simple, intuitive interface makes managing tasks
                     effortless.
@@ -385,8 +433,11 @@ const LandingPage = () => {
                 variant={"elevated"}
                 key={"elevated"}
                 backgroundColor={"#80CBC4"}
-                border="solid"
-                borderColor={"#FFB433"}
+                _hover={{
+                  transform: "scale(1.01)",
+                  transition: "all 0.2s ease-in-out",
+                  shadow: "xl",
+                }}
               >
                 <Card.Body
                   gap="2"
@@ -402,6 +453,7 @@ const LandingPage = () => {
                     sx={{
                       WebkitTextStroke: "1px black",
                     }}
+                    fontFamily="poppins"
                   >
                     Fun Features
                   </Card.Description>
@@ -416,6 +468,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
+                    fontFamily="poppins"
                   >
                     Unlock achievements, collect badges, and enjoy playful
                     animations!
@@ -487,7 +540,6 @@ const LandingPage = () => {
                 backgroundSize="cover"
                 backgroundImage={`url(${card.image})`}
               >
-                {/* This is the block you need to change, to customize the caption */}
                 <Container
                   size="container.lg"
                   height="600px"
@@ -500,19 +552,25 @@ const LandingPage = () => {
                     w={"full"}
                     maxW={"lg"}
                     position="absolute"
-                    top="50%"
+                    top="25%"
+                    left="10%"
                     transform="translate(0, -50%)"
                     backgroundColor="rgba(255, 255, 255, 0.5)"
-                    padding="10px"
+                    padding="40px"
                     borderRadius="10px"
                   >
                     <Heading
                       fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
                       marginBottom="10px"
+                      fontFamily="poppins"
                     >
                       {card.title}
                     </Heading>
-                    <Text fontSize={{ base: "md", lg: "lg" }} color="GrayText">
+                    <Text
+                      fontSize={{ base: "md", lg: "lg" }}
+                      color="black"
+                      fontFamily="poppins"
+                    >
                       {card.text}
                     </Text>
                   </Stack>
