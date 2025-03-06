@@ -60,7 +60,7 @@ const KidProfile: React.FC = () => {
       // ✅ Fetch tasks assigned to this kid
       const { data: tasksData, error: tasksError } = await supabase
         .from("soc_final_tasks")
-        .select("id, name, reward_value")
+        .select("id, name, reward_value,")
         .eq("assigned_to", kidId); // ✅ Fetch only tasks assigned to this child
 
       if (tasksError) {

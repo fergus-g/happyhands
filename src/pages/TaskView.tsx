@@ -73,7 +73,7 @@ const TaskView: React.FC = () => {
       // ✅ Step 3: Remove tasks where the assigned child is null (in case of bad data)
       const filteredTasks: TaskWithKid[] = tasksData.map((task) => ({
         ...task,
-        soc_final_kids: task.soc_final_kids as {
+        soc_final_kids: task.soc_final_kids as unknown as {
           id: number;
           name: string;
           parent_id: number;
@@ -82,6 +82,7 @@ const TaskView: React.FC = () => {
         },
       }));
 
+      console.log("Filtered Tasks Data:", filteredTasks); // ✅ Debugging Log
       setTasks(filteredTasks);
     } catch (err) {
       console.error("Error fetching tasks:", err);
@@ -122,11 +123,12 @@ const TaskView: React.FC = () => {
       const filteredTaskHistory: TaskHistoryWithKid[] = taskHistoryData.filter(
         (task) => task.soc_final_kids !== null
       );
-
+      console.log("Filtered Task History Data:", filteredTaskHistory); // ✅ Debugging Log
+      setTaskHistory(filteredTaskHistory);
       // ✅ Step 3: Remove tasks where the completed child is null (in case of bad data)
-      const filteredTaskHistory = taskHistoryData.filter(
-        (task) => task.soc_final_kids !== null
-      );
+      // const filteredTaskHistory = taskHistoryData.filter(
+      //   (task) => task.soc_final_kids !== null
+      // );
 
       setTaskHistory(filteredTaskHistory);
     } catch (err) {
@@ -149,11 +151,11 @@ const TaskView: React.FC = () => {
       if (parentError) return;
 
       const parentId = parentData.id;
-      const { data: kidsData, error: kidsError } = await supabase
+      const { data: kidsData, error: tasksError } = await supabase
         .from("soc_final_kids")
         .select("id, parent_id, name, currency")
         .eq("parent_id", parentId);
-      if (kidsError) return;
+      if (tasksError) throw new Error("Error fetching tasks");
 
       setKids(kidsData as Kid[]);
     };
