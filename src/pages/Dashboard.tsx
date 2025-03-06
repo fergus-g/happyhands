@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import QRCode from "react-qr-code";
+import { Box, Button, Text, Heading, VStack, Spinner } from "@chakra-ui/react";
+import { toast } from "react-toastify"; // Import react-toastify's toast function
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS for the toast notifications
 
 interface Kid {
   id: number;
@@ -32,16 +35,13 @@ export default function Dashboard() {
       setError(null);
 
       try {
-        // 1: Get logged-in user
         const { data: userData, error: userError } =
           await supabase.auth.getUser();
-
         if (userError) throw new Error(userError.message);
         if (!userData?.user) throw new Error("User not logged in.");
 
         const authUserId = userData.user.id;
 
-        // 2: Get parent ID
         const { data: parentData, error: parentError } = await supabase
           .from("soc_final_parents")
           .select("id")
@@ -49,10 +49,8 @@ export default function Dashboard() {
           .single();
 
         if (parentError) throw new Error("Parent not found.");
-
         const parentId = parentData.id;
 
-        // 3: Fetch kids for the parent
         const { data: kidsData, error: kidsError } = await supabase
           .from("soc_final_kids")
           .select("id, name, currency")
@@ -61,7 +59,6 @@ export default function Dashboard() {
         if (kidsError) throw new Error("Error fetching children.");
         setKids(kidsData || []);
 
-        // 4: Fetch pending reward redemptions
         type RedemptionWithReward = {
           id: number;
           kid_id: number;
@@ -82,8 +79,6 @@ export default function Dashboard() {
             data: RedemptionWithReward[];
             error: any;
           };
-
-        console.log("Fetched Redemptions Data:", redemptionsData);
 
         if (redemptionsError) throw new Error(redemptionsError.message);
 
@@ -126,88 +121,118 @@ export default function Dashboard() {
       setPendingRedemptions((prev) =>
         prev.filter((r) => r.id !== redemptionId)
       );
+      toast.success("The reward redemption has been approved.");
     } catch (err) {
       console.error("Error:", err);
+      toast.error("There was an error approving the redemption.");
     }
     setLoading(false);
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Parent Dashboard</h1>
+    <Box p={6}>
+      <Heading mb={4} fontSize="1.875rem" fontWeight="bold">
+        Parent Dashboard
+      </Heading>
 
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {loading && <Spinner size="lg" />}
+      {error && <Text color="red.500">{error}</Text>}
 
-      {/* -------------------- Section: Kids List----------------------- */}
+      {/* -------------------- Section: Kids List ----------------------- */}
       {kids.length > 0 ? (
-        <div className="mt-4">
-          <h2 className="text-2xl font-bold mb-2">Your Children</h2>
-          <ul className="space-y-3">
-            {kids.map((kid) => (
-              <li key={kid.id} className="p-4 border rounded shadow">
-                <h3 className="text-xl font-semibold">{kid.name}</h3>
-                <p>
-                  Current Coins:{" "}
-                  <span className="font-bold">{kid.currency}</span>
-                </p>
+        <VStack gap={4} align="stretch" mt={4}>
+          <Heading as="h2" size="lg" mb={2} fontWeight="bold">
+            Your Children
+          </Heading>
+          {kids.map((kid) => (
+            <Box
+              key={kid.id}
+              p={4}
+              borderWidth={1}
+              borderRadius="md"
+              borderColor="#80CBC4"
+              boxShadow="lg"
+              bg="#B2DFDB"
+              _hover={{ boxShadow: "xl" }}
+            >
+              <Heading as="h3" size="md" mb={2} fontWeight="bold">
+                {kid.name}
+              </Heading>
+              <Text>
+                Current Coins: <strong>{kid.currency}</strong>
+              </Text>
 
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
-                  onClick={() => setQrCodeKidId(kid.id)}
-                >
-                  Give Access
-                </button>
-
-                {qrCodeKidId === kid.id && (
-                  <div className="mt-4 flex flex-col items-center">
-                    <p>Scan this QR code to access {kid.name}'s profile:</p>
-                    <QRCode
-                      value={`${window.location.origin}/kid/${kid.id}`}
-                      size={150}
-                    />
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        !loading && <p>No children found.</p>
-      )}
-
-      {/* -------------------- Section: Pending Reward Redemptions--------------------- */}
-      {pendingRedemptions.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-2xl font-bold mb-2">
-            Pending Reward Redemptions
-          </h2>
-          <ul className="space-y-3">
-            {pendingRedemptions.map((redemption) => (
-              <li
-                key={redemption.id}
-                className="p-4 border rounded shadow bg-yellow-100"
+              <Button
+                colorScheme="teal"
+                onClick={() => setQrCodeKidId(kid.id)}
+                mt={3}
+                bg="white"
+                color="black"
+                shadow="md"
+                _hover={{ bg: "#80CBC4", color: "black" }}
+                _active={{ bg: "#80CBC4" }}
               >
-                <p>
-                  <strong>{redemption.reward_name}</strong> requested by{" "}
-                  <strong>{redemption.kid_name}</strong>
-                </p>
-                <p>
-                  Redeemed on:{" "}
-                  {new Date(redemption.redeemed_at).toLocaleDateString()}
-                </p>
+                Give Access
+              </Button>
 
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded mt-2 hover:bg-green-600 transition"
-                  onClick={() => approveRedemption(redemption.id)}
-                >
-                  Approve
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+              {qrCodeKidId === kid.id && (
+                <Box mt={4} textAlign="center">
+                  <Text>Scan this QR code to access {kid.name}'s profile:</Text>
+                  <QRCode
+                    value={`${window.location.origin}/kid/${kid.id}`}
+                    size={150}
+                  />
+                </Box>
+              )}
+            </Box>
+          ))}
+        </VStack>
+      ) : (
+        !loading && <Text>No children found.</Text>
       )}
-    </div>
+
+      {/* -------------------- Section: Pending Reward Redemptions --------------------- */}
+      {pendingRedemptions.length > 0 && (
+        <VStack gap={4} align="stretch" mt={6}>
+          <Heading as="h2" size="lg" mb={2} fontWeight="bold">
+            Pending Reward Redemptions
+          </Heading>
+          {pendingRedemptions.map((redemption) => (
+            <Box
+              key={redemption.id}
+              p={4}
+              borderWidth={1}
+              borderRadius="md"
+              borderColor="#80CBC4"
+              boxShadow="lg"
+              bg="#B2EBF2"
+              _hover={{ boxShadow: "xl" }}
+            >
+              <Text fontWeight="bold">
+                <strong>{redemption.reward_name}</strong> requested by{" "}
+                <strong>{redemption.kid_name}</strong>
+              </Text>
+              <Text>
+                Redeemed on:{" "}
+                {new Date(redemption.redeemed_at).toLocaleDateString()}
+              </Text>
+
+              <Button
+                colorScheme="teal"
+                onClick={() => approveRedemption(redemption.id)}
+                mt={3}
+                bg="white"
+                color="black"
+                shadow="md"
+                _hover={{ bg: "#80CBC4", color: "black" }}
+                _active={{ bg: "#80CBC4" }}
+              >
+                Approve
+              </Button>
+            </Box>
+          ))}
+        </VStack>
+      )}
+    </Box>
   );
 }
