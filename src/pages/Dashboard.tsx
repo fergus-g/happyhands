@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import QRCode from "react-qr-code";
-import { Box, Button, Text, Heading, VStack } from "@chakra-ui/react";
+import { Box, Button, Text, Heading, VStack, Spinner } from "@chakra-ui/react";
 import { toast } from "react-toastify"; // Import react-toastify's toast function
 import "react-toastify/dist/ReactToastify.css"; // Import the CSS for the toast notifications
 
@@ -35,7 +35,6 @@ export default function Dashboard() {
       setError(null);
 
       try {
-        // 1: Get logged-in user
         const { data: userData, error: userError } =
           await supabase.auth.getUser();
         if (userError) throw new Error(userError.message);
@@ -43,7 +42,6 @@ export default function Dashboard() {
 
         const authUserId = userData.user.id;
 
-        // 2: Get parent ID
         const { data: parentData, error: parentError } = await supabase
           .from("soc_final_parents")
           .select("id")
@@ -53,7 +51,6 @@ export default function Dashboard() {
         if (parentError) throw new Error("Parent not found.");
         const parentId = parentData.id;
 
-        // 3: Fetch kids for the parent
         const { data: kidsData, error: kidsError } = await supabase
           .from("soc_final_kids")
           .select("id, name, currency")
@@ -62,7 +59,6 @@ export default function Dashboard() {
         if (kidsError) throw new Error("Error fetching children.");
         setKids(kidsData || []);
 
-        // 4: Fetch pending reward redemptions
         type RedemptionWithReward = {
           id: number;
           kid_id: number;
@@ -125,27 +121,27 @@ export default function Dashboard() {
       setPendingRedemptions((prev) =>
         prev.filter((r) => r.id !== redemptionId)
       );
-      toast.success("The reward redemption has been approved."); // Use react-toastify's success toast
+      toast.success("The reward redemption has been approved.");
     } catch (err) {
       console.error("Error:", err);
-      toast.error("There was an error approving the redemption."); // Use react-toastify's error toast
+      toast.error("There was an error approving the redemption.");
     }
     setLoading(false);
   };
 
   return (
     <Box p={6}>
-      <Heading as="h1" size="xl" mb={4}>
+      <Heading mb={4} fontSize="1.875rem" fontWeight="bold">
         Parent Dashboard
       </Heading>
 
-      {loading && <Text>Loading...</Text>}
+      {loading && <Spinner size="lg" />}
       {error && <Text color="red.500">{error}</Text>}
 
-      {/* -------------------- Section: Kids List----------------------- */}
+      {/* -------------------- Section: Kids List ----------------------- */}
       {kids.length > 0 ? (
-        <VStack spacing={4} align="stretch" mt={4}>
-          <Heading as="h2" size="lg" mb={2}>
+        <VStack gap={4} align="stretch" mt={4}>
+          <Heading as="h2" size="lg" mb={2} fontWeight="bold">
             Your Children
           </Heading>
           {kids.map((kid) => (
@@ -154,10 +150,12 @@ export default function Dashboard() {
               p={4}
               borderWidth={1}
               borderRadius="md"
-              boxShadow="md"
-              bg="white"
+              borderColor="#80CBC4"
+              boxShadow="lg"
+              bg="#B2DFDB"
+              _hover={{ boxShadow: "xl" }}
             >
-              <Heading as="h3" size="md" mb={2}>
+              <Heading as="h3" size="md" mb={2} fontWeight="bold">
                 {kid.name}
               </Heading>
               <Text>
@@ -165,9 +163,14 @@ export default function Dashboard() {
               </Text>
 
               <Button
-                colorScheme="blue"
+                colorScheme="teal"
                 onClick={() => setQrCodeKidId(kid.id)}
                 mt={3}
+                bg="white"
+                color="black"
+                shadow="md"
+                _hover={{ bg: "#80CBC4", color: "black" }}
+                _active={{ bg: "#80CBC4" }}
               >
                 Give Access
               </Button>
@@ -188,10 +191,10 @@ export default function Dashboard() {
         !loading && <Text>No children found.</Text>
       )}
 
-      {/* -------------------- Section: Pending Reward Redemptions--------------------- */}
+      {/* -------------------- Section: Pending Reward Redemptions --------------------- */}
       {pendingRedemptions.length > 0 && (
-        <VStack spacing={4} align="stretch" mt={6}>
-          <Heading as="h2" size="lg" mb={2}>
+        <VStack gap={4} align="stretch" mt={6}>
+          <Heading as="h2" size="lg" mb={2} fontWeight="bold">
             Pending Reward Redemptions
           </Heading>
           {pendingRedemptions.map((redemption) => (
@@ -200,10 +203,12 @@ export default function Dashboard() {
               p={4}
               borderWidth={1}
               borderRadius="md"
-              boxShadow="md"
-              bg="yellow.100"
+              borderColor="#80CBC4"
+              boxShadow="lg"
+              bg="#B2EBF2"
+              _hover={{ boxShadow: "xl" }}
             >
-              <Text>
+              <Text fontWeight="bold">
                 <strong>{redemption.reward_name}</strong> requested by{" "}
                 <strong>{redemption.kid_name}</strong>
               </Text>
@@ -213,9 +218,14 @@ export default function Dashboard() {
               </Text>
 
               <Button
-                colorScheme="green"
+                colorScheme="teal"
                 onClick={() => approveRedemption(redemption.id)}
                 mt={3}
+                bg="white"
+                color="black"
+                shadow="md"
+                _hover={{ bg: "#80CBC4", color: "black" }}
+                _active={{ bg: "#80CBC4" }}
               >
                 Approve
               </Button>
