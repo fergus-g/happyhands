@@ -4,12 +4,16 @@ import { supabase } from "../utils/supabaseClient";
 import { Box, Heading, Text, Button, Stack, Avatar, AvatarGroup } from '@chakra-ui/react';
 import { Kid, Reward } from "../types/database";
 import { ProtectedRoute } from "../components/ProtectedRoute";
+import { useWindowSize } from 'react-use'
+import Confetti from 'react-confetti'
 
 const KidProfile: React.FC = () => {
   const { id } = useParams();
   const [kid, setKid] = useState<Kid | null>(null);
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [loading, setLoading] = useState(false);
+  const { width, height } = useWindowSize();
+  const [showConfetti, setShowConfetti] =useState(false);
 
   useEffect(() => {
     const fetchKidAndRewards = async () => {
@@ -71,17 +75,38 @@ const KidProfile: React.FC = () => {
 
       setKid({ ...kid, currency: kid.currency - reward.cost });
       setRewards(rewards.filter((r) => r.id !== reward.id));
+
+      setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 5000);
+
     } catch (err) {
       console.error("Error:", err);
-    }
+    }  
+
     setLoading(false);
   };
 
   if (!kid) return <p>Loading...</p>;
 
+  //toggle button when clicked
+  //toggles between displaying tasks assigned from the database
+  //and rewards made by parents from the database
+
+  //switch from chakra
+  // <Switch.Root> add purple colorPalette 
+//   <Switch.HiddenInput />
+//   <Switch.Control>
+//     <Switch.Thumb />
+//   </Switch.Control>
+//   <Switch.Label>Activate Chakra</Switch.Label>
+// </Switch.Root>
+//)
+
   return (
     <ProtectedRoute>
-    <Box display="flex" justifyContent="center" alignItems="center" p={6} shadow="md" bg="#80CBC4">
+    <Box display="flex" justifyContent="center" alignItems="center" p={6} shadow="md" bg="#80CBC4" minH="100%" width="100%"  mx="auto" px={{ base: 4, md: 8 }}>
+       {/* Confetti Component */}
+       {showConfetti && <Confetti width={width} height={height} />}
       <Box display="flex" w="50%" justifyContent="center" alignItems="center" p={3} shadow="md" bg="white" borderRadius="xl">
       <Stack p={6} align="center" w="full" bg="white">
         {/* Kid's Profile Header */}
@@ -96,8 +121,8 @@ const KidProfile: React.FC = () => {
         </Heading>
   
         {/* Coins Info */}
-        <Text textAlign="center" bg="white">
-          <strong>Coins:</strong> {kid.currency}
+        <Text textAlign="center" bg="white" fontSize="xl">
+          <strong>Coins:</strong> {kid.currency} 🪙
         </Text>
   
         {/* ------------------ Reward Redemption Section --------------------*/}
@@ -117,10 +142,10 @@ const KidProfile: React.FC = () => {
                   px={4}
                   py={2}
                   borderRadius="md"
-                  bg={kid.currency >= reward.cost ? "#80CBC4" : "gray.300"}
+                  bg={kid.currency >= reward.cost ? "purple" : "gray.300"}
                   color={kid.currency >= reward.cost ? "white" : "gray.500"}
                   _hover={{
-                    bg: kid.currency >= reward.cost ? "#6AC0B8" : "gray.300",
+                    bg: kid.currency >= reward.cost ? "indigo" : "gray.300",
                   }}
                   onClick={() => redeemReward(reward)}
                   disabled={kid.currency < reward.cost || loading}
