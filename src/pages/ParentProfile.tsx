@@ -64,7 +64,6 @@ const ParentProfile: React.FC = () => {
         bg="white"
         w="100vw"
         h="100vh"
-        bg="white"
         display="flex"
         flexDirection={{ base: "column", md: "row" }} // Stack vertically on mobile, row on larger screens
         justifyContent="flex-start"
@@ -75,7 +74,6 @@ const ParentProfile: React.FC = () => {
           w={{ base: "90%", md: "65%" }}
           mt={6}
           ml={{ base: 0, md: 6 }}
-          bg="#80CBC4"
           p={6}
           borderRadius="md"
           bg="transparent"
