@@ -1,9 +1,12 @@
 body {
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  overflow-y: scroll; /* Always show vertical scrollbar */
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-image: url("../public/bg-img.png");
+  background-size: 200px;
+  background-repeat: repeat;
+  background-position: center;
 }
 
-/* Hide scrollbar in WebKit browsers (Chrome, Safari) */
 body::-webkit-scrollbar {
   display: none;
 }
