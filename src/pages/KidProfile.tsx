@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
-import { Box, Heading, Text, Button, Stack, Avatar, AvatarGroup } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  Stack,
+  Avatar,
+  AvatarGroup,
+} from "@chakra-ui/react";
 import { Kid, Reward } from "../types/database";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { useWindowSize } from 'react-use'
@@ -10,18 +18,24 @@ import Confetti from 'react-confetti'
 const KidProfile: React.FC = () => {
   const { id } = useParams();
   const [kid, setKid] = useState<Kid | null>(null);
+  const [tasks, setTasks] = useState<
+    { id: number; name: string; reward_value: number }[]
+  >([]);
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [loading, setLoading] = useState(false);
   const { width, height } = useWindowSize();
   const [showConfetti, setShowConfetti] =useState(false);
 
   useEffect(() => {
-    const fetchKidAndRewards = async () => {
+    const fetchKidData = async () => {
       if (!id) return;
 
       const kidId = parseInt(id, 10);
       if (isNaN(kidId)) return;
 
+      console.log("checking kid ID:", kidId);
+
+      // ✅ Fetch kid details
       const { data: kidData, error: kidError } = await supabase
         .from("soc_final_kids")
         .select("id, parent_id, name, currency")
@@ -33,8 +47,9 @@ const KidProfile: React.FC = () => {
         return;
       }
 
-      setKid(kidData);
+      console.log("🎯 Kid Data Fetched:", kidData);
 
+      setKid(kidData);
       const parentId = kidData.parent_id;
 
       const { data: rewardsData, error: rewardsError } = await supabase
@@ -47,11 +62,54 @@ const KidProfile: React.FC = () => {
         return;
       }
 
+      console.log("🏆 Rewards Fetched:", rewardsData);
+
       setRewards(rewardsData);
+
+      console.log("📡 Fetching tasks for kid ID:", kidId);
+      const parsedKidId = Number(id);
+
+      const { data: tasksData, error: tasksError } = await supabase
+        .from("soc_final_tasks")
+        .select("id, name, reward_value")
+        .eq("assigned_to", parsedKidId);
+
+      if (tasksError) {
+        console.error("Error fetching tasks:", tasksError);
+        return;
+      }
+
+      setTasks(tasksData);
+      console.log("Fetched Tasks for Kid:", tasksData);
     };
 
-    fetchKidAndRewards();
+    fetchKidData();
   }, [id]);
+  const markTaskComplete = async (taskId: number) => {
+    console.log("✅ Marking task as complete:", taskId); // Log Task ID
+    try {
+      const { data, error } = await supabase
+        .from("soc_final_tasks")
+        .update({ completed: true })
+        .eq("id", taskId)
+        .select(); // Fetch updated row for confirmation
+
+      if (error) {
+        console.error("❌ Error marking task as complete:", error);
+        return;
+      }
+
+      console.log("🆕 Updated Task Data from Supabase:", data); // Check updated task
+
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId ? { ...task, completed: true } : task
+        )
+      );
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
 
   const redeemReward = async (reward: Reward) => {
     if (!kid || kid.currency < reward.cost) return;
@@ -104,7 +162,8 @@ const KidProfile: React.FC = () => {
 
   return (
     <ProtectedRoute>
-    <Box display="flex" justifyContent="center" alignItems="center" p={6} shadow="md" bg="#80CBC4" minH="100%" width="100%"  mx="auto" px={{ base: 4, md: 8 }}>
+
+        <Box display="flex" justifyContent="center" alignItems="center" p={6} shadow="md" bg="#80CBC4" minH="100%" width="100%"  mx="auto" px={{ base: 4, md: 8 }}>
        {/* Confetti Component */}
        {showConfetti && <Confetti width={width} height={height} />}
       <Box display="flex" w="50%" justifyContent="center" alignItems="center" p={3} shadow="md" bg="white" borderRadius="xl">
@@ -119,13 +178,61 @@ const KidProfile: React.FC = () => {
             </Avatar.Root>
           </AvatarGroup>
         </Heading>
-  
-        {/* Coins Info */}
-        <Text textAlign="center" bg="white" fontSize="xl">
+
+            {/* Coins Info */}
+           <Text textAlign="center" bg="white" fontSize="xl">
           <strong>Coins:</strong> {kid.currency} 🪙
         </Text>
-  
-        {/* ------------------ Reward Redemption Section --------------------*/}
+
+            {/* ------------------ Assigned Tasks -------------------- */}
+            <Heading
+              as="h3"
+              size="md"
+              fontWeight="bold"
+              textAlign="center"
+              mt={4}
+              bg="white"
+            >
+              Assigned Tasks
+            </Heading>
+            {tasks.length > 0 ? (
+              <Stack p={4} w="full" align="center">
+                {tasks.map((task) => (
+                  <Box
+                    key={task.id}
+                    p={3}
+                    bg="white"
+                    borderRadius="xl"
+                    w="full"
+                    textAlign="center"
+                    shadow="md"
+                  >
+                    <Text bg="white" p={3} mt={4}>
+                      <strong>{task.name}</strong> - {task.reward_value} coins
+                    </Text>
+                    <Button
+                      colorScheme="green"
+                      onClick={() => markTaskComplete(task.id)}
+                      mt={2}
+                      bg="white"
+                      color="black"
+                      shadow="md"
+                      _hover={{ bg: "#80CBC4" }}
+                      _active={{ bg: "#80CBC4" }}
+                      disabled={task.completed}
+                    >
+                      {task.completed
+                        ? "Task Completed ✅"
+                        : "I Have Completed This Task"}
+                    </Button>
+                  </Box>
+                ))}
+              </Stack>
+            ) : (
+              <Text>No tasks assigned.</Text>
+            )}
+
+            {/* ------------------ Reward Redemption Section --------------------*/}
         <Heading as="h3" size="md" fontWeight="bold" textAlign="center" mt={4} bg="white">
           Redeem Rewards
         </Heading>
@@ -154,54 +261,12 @@ const KidProfile: React.FC = () => {
                 </Button>
               </Box>
             ))}
+
           </Stack>
-        ) : (
-          <Text>No rewards available.</Text>
-        )}
-      </Stack>
+        </Box>
       </Box>
-    </Box>
-  </ProtectedRoute>
-    )}
-   
-  
-
-//     <ProtectedRoute>
-//       <div className="p-6">
-//         <h1 className="text-2xl font-bold">{kid.name}'s Profile</h1>
-//         <p>
-//           <strong>Coins:</strong> {kid.currency}
-//         </p>
-
-//         {/* ------------------ Reward Redemption Section --------------------*/}
-//         <h2 className="text-xl font-bold mt-4">Redeem Rewards</h2>
-//         {rewards.length > 0 ? (
-//           <ul>
-//             {rewards.map((reward) => (
-//               <li key={reward.id} className="p-3 bg-gray-100 rounded-md mb-2">
-//                 <p>
-//                   <strong>{reward.name}</strong> - {reward.cost} coins
-//                 </p>
-//                 <button
-//                   className={`px-4 py-2 rounded ${
-//                     kid.currency >= reward.cost
-//                       ? "bg-blue-500 text-white hover:bg-blue-600"
-//                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
-//                   }`}
-//                   onClick={() => redeemReward(reward)}
-//                   disabled={kid.currency < reward.cost || loading}
-//                 >
-//                   {loading ? "Processing..." : "Redeem"}
-//                 </button>
-//               </li>
-//             ))}
-//           </ul>
-//         ) : (
-//           <p>No rewards available.</p>
-//         )}
-//       </div>
-//     </ProtectedRoute>
-//   );
-// };
+    </ProtectedRoute>
+  );
+};
 
 export default KidProfile;
