@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../utils/supabaseClient";
+import { Box, Button, HStack, Stack } from "@chakra-ui/react";
 
 interface Kid {
   id: number;
@@ -55,21 +56,53 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <nav className="p-4 bg-blue-500 text-white flex justify-between items-center">
+    <HStack
+      p={8}
+      backgroundColor={"#80CBC4"}
+      display="flex"
+      flexDirection="row"
+      justifyContent="space-between"
+      width="100vw"
+      height="100px"
+      position="sticky"
+      top="0"
+      zIndex="1000"
+    >
+      {" "}
       {/* Left: Navigation Links */}
-      <ul className="flex space-x-4">
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="/tasks">Tasks</Link>
-        </li>
-        <li>
-          <Link to="/rewards">Rewards</Link>
-        </li>
-        <li>
-          <Link to="/parent">Parent Profile</Link>
-        </li>
+      <Box display="flex" justifyContent="flex-end" gap={2}>
+        <Button
+          backgroundColor={"purple"}
+          onClick={() => navigate("/Dashboard")}
+          fontFamily="poppins"
+          _hover={{ backgroundColor: "indigo" }}
+        >
+          Dashboard
+        </Button>
+        <Button
+          backgroundColor={"purple"}
+          onClick={() => navigate("/Tasks")}
+          fontFamily="poppins"
+          _hover={{ backgroundColor: "indigo" }}
+        >
+          Tasks
+        </Button>
+        <Button
+          backgroundColor={"purple"}
+          onClick={() => navigate("/Rewards")}
+          fontFamily="poppins"
+          _hover={{ backgroundColor: "indigo" }}
+        >
+          Rewards
+        </Button>
+        <Button
+          backgroundColor={"purple"}
+          onClick={() => navigate("/Parent")}
+          fontFamily="poppins"
+          _hover={{ backgroundColor: "indigo" }}
+        >
+          Profile
+        </Button>
 
         {/* ✅ Kid Profile Dropdown
         {kids.length > 0 && (
@@ -90,38 +123,43 @@ const NavBar: React.FC = () => {
             </select>
           </li>
         )} */}
-      </ul>
-
+      </Box>
       {/* Right: Auth Controls */}
       <div className="flex space-x-4">
         {!user ? (
           <>
-            <Link
-              to="/login"
-              className="bg-white text-blue-500 px-3 py-2 rounded hover:bg-gray-200"
+            <Button
+              backgroundColor={"purple"}
+              onClick={() => navigate("/Login")}
+              fontFamily="poppins"
+              _hover={{ backgroundColor: "indigo" }}
             >
               Login
-            </Link>
-            <Link
-              to="/create-profile"
-              className="bg-white text-blue-500 px-3 py-2 rounded hover:bg-gray-200"
+            </Button>
+            <Button
+              backgroundColor={"purple"}
+              onClick={() => navigate("/Sign Up")}
+              fontFamily="poppins"
+              _hover={{ backgroundColor: "indigo" }}
             >
               Sign Up
-            </Link>
+            </Button>
           </>
         ) : (
           <>
-            <span className="text-sm text-gray-100">Welcome, {user.email}</span>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded hover:bg-red-700"
+            <span className="text-sm text-gray-100">Welcome, {user.id}</span>
+            <Button
+              backgroundColor={"purple"}
+              onClick={() => handleLogout()}
+              fontFamily="poppins"
+              _hover={{ backgroundColor: "indigo" }}
             >
-              Sign Out
-            </button>
+              Log Out
+            </Button>
           </>
         )}
       </div>
-    </nav>
+    </HStack>
   );
 };
 
