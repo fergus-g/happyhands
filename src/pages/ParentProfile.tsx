@@ -61,11 +61,10 @@ const ParentProfile: React.FC = () => {
   return (
     <ProtectedRoute>
       <Box
-        bg="white"
         w="100vw"
         h="100vh"
         display="flex"
-        flexDirection={{ base: "column", md: "row" }} // Stack vertically on mobile, row on larger screens
+        flexDirection={{ base: "column", md: "row" }}
         justifyContent="flex-start"
         alignItems="flex-start"
         p={6}
@@ -76,7 +75,7 @@ const ParentProfile: React.FC = () => {
           ml={{ base: 0, md: 6 }}
           p={6}
           borderRadius="md"
-          bg="transparent"
+          bg="white"
           display="flex"
           flexDirection="column"
           justifyContent="center"
