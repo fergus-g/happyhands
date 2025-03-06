@@ -90,7 +90,7 @@ const LandingPage = () => {
   ];
 
   return (
-    <>
+    <Box bg="white">
       {/* Header */}
       <Stack
         p={8}
@@ -653,7 +653,7 @@ const LandingPage = () => {
 
         <Text font="poppins"> Built using React, Typescript by 404 BNF</Text>
       </Stack>
-    </>
+    </Box>
   );
 };
 
