@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { Kid, Reward } from "../types/database";
 import { ProtectedRoute } from "../components/ProtectedRoute";
-import { useWindowSize } from "react-use";
-import Confetti from "react-confetti";
+import { useWindowSize } from 'react-use'
+import Confetti from 'react-confetti'
 
 const KidProfile: React.FC = () => {
   const { id } = useParams();
@@ -24,7 +24,7 @@ const KidProfile: React.FC = () => {
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [loading, setLoading] = useState(false);
   const { width, height } = useWindowSize();
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [showConfetti, setShowConfetti] =useState(false);
 
   useEffect(() => {
     const fetchKidData = async () => {
@@ -133,68 +133,56 @@ const KidProfile: React.FC = () => {
 
       setKid({ ...kid, currency: kid.currency - reward.cost });
       setRewards(rewards.filter((r) => r.id !== reward.id));
+
       setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 5000);
+        setTimeout(() => setShowConfetti(false), 5000);
+
     } catch (err) {
       console.error("Error:", err);
-    }
+    }  
+
     setLoading(false);
   };
 
   if (!kid) return <p>Loading...</p>;
 
+  //toggle button when clicked
+  //toggles between displaying tasks assigned from the database
+  //and rewards made by parents from the database
+
+  //switch from chakra
+  // <Switch.Root> add purple colorPalette 
+//   <Switch.HiddenInput />
+//   <Switch.Control>
+//     <Switch.Thumb />
+//   </Switch.Control>
+//   <Switch.Label>Activate Chakra</Switch.Label>
+// </Switch.Root>
+//)
+
   return (
     <ProtectedRoute>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        p={6}
-        shadow="md"
-        bg="#80CBC4"
-        minH="100%"
-        width="100%"
-        height={"100vh"}
-        mx="auto"
-        px={{ base: 4, md: 8 }}
-      >
-        {showConfetti && <Confetti width={width} height={height} />}
-        <Box
-          display="flex"
-          w="50%"
-          justifyContent="center"
-          alignItems="center"
-          p={3}
-          shadow="md"
-          bg="white"
-          borderRadius="xl"
-        >
-          <Stack p={6} align="center" w="full" bg="white">
-            {/* Kid's Profile Header */}
-            <Heading
-              as="h2"
-              size="2xl"
-              fontWeight="bold"
-              bg="white"
-              p={6}
-              borderRadius="md"
-              w="full"
-              textAlign="center"
-            >
-              {kid.name}'s Profile
-              <AvatarGroup p={4}>
-                <Avatar.Root>
-                  <Avatar.Fallback name={`${kid.name}'s Avatar`} />
 
-                  <Avatar.Image src="https://i.ytimg.com/vi/eXwZMAz9Vh8/maxresdefault.jpg" />
-                </Avatar.Root>
-              </AvatarGroup>
-            </Heading>
+        <Box display="flex" justifyContent="center" alignItems="center" p={6} shadow="md" bg="#80CBC4" minH="100%" width="100%"  mx="auto" px={{ base: 4, md: 8 }}>
+       {/* Confetti Component */}
+       {showConfetti && <Confetti width={width} height={height} />}
+      <Box display="flex" w="50%" justifyContent="center" alignItems="center" p={3} shadow="md" bg="white" borderRadius="xl">
+      <Stack p={6} align="center" w="full" bg="white">
+        {/* Kid's Profile Header */}
+        <Heading as="h2" size="2xl" fontWeight="bold" bg="white" p={6} borderRadius="md" w="full" textAlign="center">
+          {kid.name}'s Profile
+          <AvatarGroup  p={4}>
+            <Avatar.Root>
+              <Avatar.Fallback name={`${kid.name}'s Avatar`}/>
+              <Avatar.Image src="https://i.ytimg.com/vi/eXwZMAz9Vh8/maxresdefault.jpg"/>
+            </Avatar.Root>
+          </AvatarGroup>
+        </Heading>
 
             {/* Coins Info */}
-            <Text textAlign="center" bg="white">
-              <strong>Coins:</strong> {kid.currency || 0}
-            </Text>
+           <Text textAlign="center" bg="white" fontSize="xl">
+          <strong>Coins:</strong> {kid.currency} 🪙
+        </Text>
 
             {/* ------------------ Assigned Tasks -------------------- */}
             <Heading
@@ -244,57 +232,39 @@ const KidProfile: React.FC = () => {
               <Text>No tasks assigned.</Text>
             )}
 
-            {/* ------------------ Reward Redemption Section -------------------- */}
-            <Heading
-              as="h3"
-              size="md"
-              fontWeight="bold"
-              textAlign="center"
-              mt={4}
-              bg="white"
-            >
-              Redeem Rewards
-            </Heading>
-            {rewards.length > 0 ? (
-              <Stack p={4} w="full" align="center">
-                {rewards.map((reward) => (
-                  <Box
-                    key={reward.id}
-                    p={3}
-                    bg="white"
-                    borderRadius="xl"
-                    w="full"
-                    textAlign="center"
-                    shadow="md"
-                    _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
-                  >
-                    <Text bg="white" p={3} mt={4}>
-                      <strong>{reward.name}</strong> - {reward.cost} coins
-                    </Text>
-                    <Button
-                      px={4}
-                      py={2}
-                      borderRadius="md"
-                      bg={kid.currency >= reward.cost ? "#80CBC4" : "gray.300"}
-                      color={kid.currency >= reward.cost ? "white" : "gray.500"}
-                      _hover={{
-                        bg:
-                          kid.currency >= reward.cost ? "#6AC0B8" : "gray.300",
-                      }}
-                      onClick={() => redeemReward(reward)}
-                      disabled={kid.currency < reward.cost || loading}
-                    >
-                      {loading ? "Processing..." : "Redeem"}
-                    </Button>
-                  </Box>
-                ))}
-              </Stack>
-            ) : (
-              <Text>No rewards available</Text>
-            )}
+            {/* ------------------ Reward Redemption Section --------------------*/}
+        <Heading as="h3" size="md" fontWeight="bold" textAlign="center" mt={4} bg="white">
+          Redeem Rewards
+        </Heading>
+  
+        {rewards.length > 0 ? (
+          <Stack p={4} w="full" align="center" >
+            {rewards.map((reward) => (
+              <Box key={reward.id} p={3} bg="white" borderRadius="xl"
+                w="full" textAlign="center" shadow="md" _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}>
+                <Text  bg="white" p={3} mt={4}>
+                  <strong>{reward.name}</strong> - {reward.cost} coins
+                </Text>
+                <Button
+                  px={4}
+                  py={2}
+                  borderRadius="md"
+                  bg={kid.currency >= reward.cost ? "purple" : "gray.300"}
+                  color={kid.currency >= reward.cost ? "white" : "gray.500"}
+                  _hover={{
+                    bg: kid.currency >= reward.cost ? "indigo" : "gray.300",
+                  }}
+                  onClick={() => redeemReward(reward)}
+                  disabled={kid.currency < reward.cost || loading}
+                >
+                  {loading ? "Processing..." : "Redeem"}
+                </Button>
+              </Box>
+            ))}
+
           </Stack>
-        </Box>
-      </Box>
+      
+    
     </ProtectedRoute>
   );
 };

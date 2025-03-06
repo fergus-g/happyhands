@@ -383,6 +383,17 @@ const TaskView: React.FC = () => {
               )}
             </Box>
 
+            <Box display="flex" alignItems="center">
+              <Heading size="md" mb={2} style={{ fontWeight: "bold" }}>
+                Assigned Tasks
+              </Heading>
+              {newTaskCompleted && (
+                <Text ml={3} color="red.500" fontWeight="bold">
+                  New Task Completed! ✅
+                </Text>
+              )}
+            </Box>
+
             {tasks.map((task) => (
               <Box
                 key={task.id}
