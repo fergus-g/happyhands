@@ -79,12 +79,14 @@ const LandingPage = () => {
         top="0"
         zIndex="1000"
       >
-        {/* <Heading size="2xl" fontFamily="poppins">
-          Happy Hands
-        </Heading> */}
         <img
           src="../../public/happyhands.png"
-          style={{ width: "80px", height: "50px" }}
+          style={{
+            width: "100px",
+            height: "80px",
+            position: "relative",
+            marginTop: "-20px",
+          }}
         />
         <Box display="flex" justifyContent="flex-end" gap={2}>
           <Button
@@ -131,6 +133,7 @@ const LandingPage = () => {
             display="flex"
             flexDirection="row"
             justifyContent="space-between"
+            marginLeft="100px"
           >
             <Stack
               justifyContent="center"
@@ -190,8 +193,13 @@ const LandingPage = () => {
         marginTop="100px"
         width="100vw"
       >
-        <Card.Root variant={"elevated"} key={"elevated"} width="800px">
-          <Card.Body gap="2">
+        <Card.Root
+          variant={"elevated"}
+          key={"elevated"}
+          width="800px"
+          height="400px"
+        >
+          <Card.Body gap="2" alignContent="center" justifyContent="center">
             <Card.Title mb="2" alignSelf="center" fontFamily="poppins">
               We are on the app store
             </Card.Title>
@@ -206,7 +214,12 @@ const LandingPage = () => {
               Rating 4.75/5 from 200 Customers
             </Card.Description>
           </Card.Body>
-          <Card.Footer justifyContent="flex-end" alignSelf="center">
+
+          <Card.Footer
+            justifyContent="flex-end"
+            alignSelf="center"
+            paddingBottom="50px"
+          >
             <Button
               as="a"
               href="https://apps.apple.com"
