@@ -29,6 +29,8 @@ const KidProfile: React.FC = () => {
       const kidId = parseInt(id, 10);
       if (isNaN(kidId)) return;
 
+      console.log("checking kid ID:", kidId);
+
       // ✅ Fetch kid details
       const { data: kidData, error: kidError } = await supabase
         .from("soc_final_kids")
@@ -41,10 +43,11 @@ const KidProfile: React.FC = () => {
         return;
       }
 
+      console.log("🎯 Kid Data Fetched:", kidData);
+
       setKid(kidData);
       const parentId = kidData.parent_id;
 
-      // ✅ Fetch rewards created by the parent
       const { data: rewardsData, error: rewardsError } = await supabase
         .from("soc_final_rewards")
         .select("*")
@@ -55,13 +58,17 @@ const KidProfile: React.FC = () => {
         return;
       }
 
+      console.log("🏆 Rewards Fetched:", rewardsData);
+
       setRewards(rewardsData);
 
-      // ✅ Fetch tasks assigned to this kid
+      console.log("📡 Fetching tasks for kid ID:", kidId);
+      const parsedKidId = Number(id);
+
       const { data: tasksData, error: tasksError } = await supabase
         .from("soc_final_tasks")
-        .select("id, name, reward_value,")
-        .eq("assigned_to", kidId); // ✅ Fetch only tasks assigned to this child
+        .select("id, name, reward_value")
+        .eq("assigned_to", parsedKidId);
 
       if (tasksError) {
         console.error("Error fetching tasks:", tasksError);
@@ -69,6 +76,7 @@ const KidProfile: React.FC = () => {
       }
 
       setTasks(tasksData);
+      console.log("Fetched Tasks for Kid:", tasksData);
     };
 
     fetchKidData();
@@ -83,7 +91,6 @@ const KidProfile: React.FC = () => {
 
       if (error) throw new Error("Error marking task as complete");
 
-      // ✅ Update local state so UI updates immediately
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.id === taskId ? { ...task, completed: true } : task
@@ -99,7 +106,6 @@ const KidProfile: React.FC = () => {
 
     setLoading(true);
     try {
-      // ✅ Deduct reward cost from the kid's currency
       const { error: updateError } = await supabase
         .from("soc_final_kids")
         .update({ currency: kid.currency - reward.cost })
@@ -107,7 +113,6 @@ const KidProfile: React.FC = () => {
 
       if (updateError) throw new Error("Error updating currency");
 
-      // ✅ Insert into soc_final_redeemed_rewards
       const { error: redeemError } = await supabase
         .from("soc_final_redeemed_rewards")
         .insert([
@@ -116,7 +121,6 @@ const KidProfile: React.FC = () => {
 
       if (redeemError) throw new Error("Error adding redeemed reward");
 
-      // ✅ Update local state
       setKid({ ...kid, currency: kid.currency - reward.cost });
       setRewards(rewards.filter((r) => r.id !== reward.id));
     } catch (err) {
@@ -209,7 +213,7 @@ const KidProfile: React.FC = () => {
                       shadow="md"
                       _hover={{ bg: "#80CBC4" }}
                       _active={{ bg: "#80CBC4" }}
-                      disabled={task.completed} // ✅ Disable if already completed
+                      disabled={task.completed}
                     >
                       {task.completed
                         ? "Task Completed ✅"
