@@ -61,6 +61,7 @@ const ParentProfile: React.FC = () => {
   return (
     <ProtectedRoute>
       <Box
+        bg="white"
         w="100vw"
         h="100vh"
         bg="white"
@@ -90,6 +91,7 @@ const ParentProfile: React.FC = () => {
             gap={6}
             wrap="wrap"
             bg="transparent"
+            color="black"
           >
             <Stack align="center" spacing={4} bg="transparent">
               <Heading
@@ -146,6 +148,7 @@ const ParentProfile: React.FC = () => {
               borderRadius="md"
               borderWidth="2px"
               borderColor="#80CBC4"
+              color="black"
             >
               My Children
             </Heading>
@@ -153,6 +156,7 @@ const ParentProfile: React.FC = () => {
               <Box
                 key={kid.id}
                 bg="white"
+                color="black"
                 p={3}
                 borderRadius="md"
                 border="1px solid #80CBC4"
