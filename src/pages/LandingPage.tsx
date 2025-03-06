@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Button,
   Card,
@@ -43,6 +43,31 @@ const LandingPage = () => {
   const top = useBreakpointValue({ base: "90%", md: "50%" });
   const side = useBreakpointValue({ base: "30%", md: "40px" });
 
+  const downloadRef = useRef(null);
+  const featuresRef = useRef(null);
+  const testimonialsRef = useRef(null);
+
+  const scrolltoDownload = () => {
+    downloadRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const scrollToFeatures = () => {
+    featuresRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const scrollToTestimonials = () => {
+    testimonialsRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
   const cards = [
     {
       title: "Sarah Michaels",
@@ -79,12 +104,14 @@ const LandingPage = () => {
         top="0"
         zIndex="1000"
       >
-        {/* <Heading size="2xl" fontFamily="poppins">
-          Happy Hands
-        </Heading> */}
         <img
           src="../../public/happyhands.png"
-          style={{ width: "80px", height: "50px" }}
+          style={{
+            width: "100px",
+            height: "80px",
+            position: "relative",
+            marginTop: "-20px",
+          }}
         />
         <Box display="flex" justifyContent="flex-end" gap={2}>
           <Button
@@ -92,6 +119,8 @@ const LandingPage = () => {
             onClick={() => navigate("/create-profile")}
             fontFamily="poppins"
             _hover={{ backgroundColor: "indigo" }}
+            border="solid"
+            borderColor="indigo"
           >
             Sign Up
           </Button>
@@ -99,6 +128,7 @@ const LandingPage = () => {
             backgroundColor={"purple"}
             fontFamily="poppins"
             _hover={{ backgroundColor: "indigo" }}
+            onClick={scrolltoDownload}
           >
             Download
           </Button>
@@ -106,6 +136,7 @@ const LandingPage = () => {
             backgroundColor={"purple"}
             fontFamily="poppins"
             _hover={{ backgroundColor: "indigo" }}
+            onClick={scrollToFeatures}
           >
             Features
           </Button>
@@ -113,6 +144,7 @@ const LandingPage = () => {
             backgroundColor={"purple"}
             fontFamily="poppins"
             _hover={{ backgroundColor: "indigo" }}
+            onClick={scrollToTestimonials}
           >
             Testimonials
           </Button>
@@ -131,6 +163,7 @@ const LandingPage = () => {
             display="flex"
             flexDirection="row"
             justifyContent="space-between"
+            marginLeft="100px"
           >
             <Stack
               justifyContent="center"
@@ -160,10 +193,13 @@ const LandingPage = () => {
                   Sign Up
                 </Button>
                 <Button
-                  backgroundColor={"purple"}
+                  backgroundColor={"#b4ebe6"}
+                  color="purple"
                   onClick={() => navigate("/login")}
                   marginLeft="5px"
                   fontFamily="poppins"
+                  border="solid"
+                  borderColor="purple"
                   _hover={{ backgroundColor: "indigo" }}
                 >
                   Sign In
@@ -189,9 +225,15 @@ const LandingPage = () => {
         justifyContent="center"
         marginTop="100px"
         width="100vw"
+        ref={downloadRef}
       >
-        <Card.Root variant={"elevated"} key={"elevated"} width="800px">
-          <Card.Body gap="2">
+        <Card.Root
+          variant={"elevated"}
+          key={"elevated"}
+          width="800px"
+          height="400px"
+        >
+          <Card.Body gap="2" alignContent="center" justifyContent="center">
             <Card.Title mb="2" alignSelf="center" fontFamily="poppins">
               We are on the app store
             </Card.Title>
@@ -206,7 +248,12 @@ const LandingPage = () => {
               Rating 4.75/5 from 200 Customers
             </Card.Description>
           </Card.Body>
-          <Card.Footer justifyContent="flex-end" alignSelf="center">
+
+          <Card.Footer
+            justifyContent="flex-end"
+            alignSelf="center"
+            paddingBottom="50px"
+          >
             <Button
               as="a"
               href="https://apps.apple.com"
@@ -278,7 +325,7 @@ const LandingPage = () => {
             >
               Why choose Happy Hands?
             </Card.Description>
-            <Stack flexDirection="row">
+            <Stack flexDirection="row" ref={featuresRef}>
               <Card.Root
                 width="25vw"
                 variant={"elevated"}
@@ -490,6 +537,8 @@ const LandingPage = () => {
           overflow={"hidden"}
           margin="auto"
           borderRadius="10px"
+          marginTop="100px"
+          ref={testimonialsRef}
         >
           {/* CSS files for react-slick */}
           <link
@@ -579,6 +628,30 @@ const LandingPage = () => {
             ))}
           </Slider>
         </Box>
+      </Stack>
+      {/* Footer */}
+      <Stack
+        p={8}
+        backgroundColor={"#80CBC4"}
+        flexDirection="row"
+        alignContent="center"
+        justifyContent="space-between"
+        width="100vw"
+        marginTop="100px"
+        height="50px"
+        bottom="0"
+      >
+        <img
+          src="../../public/happyhands.png"
+          style={{
+            width: "50px",
+            height: "40px",
+            position: "relative",
+            marginTop: "-20px",
+          }}
+        />
+
+        <Text font="poppins"> Built using React, Typescript by 404 BNF</Text>
       </Stack>
     </>
   );

@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { signIn } from "../utils/auth";
-import { Field } from "@chakra-ui/react";
-import { Input } from "@chakra-ui/react";
-import { Box } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
+import { Field, Input, Box, Button, Heading, Text } from "@chakra-ui/react";
+import { FaArrowLeft } from "react-icons/fa";
+
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Heading } from "@chakra-ui/react";
+
 // import { ReactFormState } from "react-dom/client";
 
 export default function Login() {
@@ -36,91 +35,121 @@ export default function Login() {
   };
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minH="100vh"
-      px={4}
-      bg="#80CBC4"
-    >
+    <>
       <Box
-        p={12}
-        borderWidth="1px"
-        shadow="lg"
-        borderRadius="xl"
-        maxW="md"
-        w="full"
-        bg="white"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minH="100vh"
+        px={4}
+        bg="#80CBC4"
       >
-        <Heading
-          style={{
-            fontSize: "1.875rem",
-            fontWeight: "bold",
-            textAlign: "center",
-            marginBottom: "2rem",
+        <Button
+          position="absolute"
+          top="2.5%"
+          left="2.5%"
+          backgroundColor="#80cbc4"
+          onClick={() => navigate("/")}
+          _hover={{
+            scale: "1.5",
+            transform: "scale(1.01)",
+            transition: "all 0.2s ease-in-out",
           }}
         >
-          Login
-        </Heading>
-
-        {error && (
-          <Box color="red.500" fontSize="sm" mb={4}>
-            {error}
-          </Box>
-        )}
-
-        <form onSubmit={handleSignIn} className="w-full">
-          <Field.Root>
-            <Field.Label>
-              <Field.RequiredIndicator />
-            </Field.Label>
-            <Input
-              placeholder="Email"
-              variant="subtle"
-              type="email"
-              shadow="md"
-              bg="white"
-              value={email}
-              _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <Input
-              placeholder="Password"
-              variant="subtle"
-              type="password"
-              shadow="md"
-              value={password}
-              bg="white"
-              _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <Field.HelperText />
-            <Field.ErrorText />
-          </Field.Root>
-          <Button
-            type="submit"
-            colorScheme="blue"
-            width="full"
-            size="lg"
-            color="black"
-            // borderWidth="1px"
-            // borderColor="#B4EBE6"
-            shadow="md" // Adds shadow
-            disabled={loading}
-            bg="white"
-            justifyContent="center"
-            alignItems="center"
-            _hover={{ bg: "#B4EBE6" }}
-            mt={2}
+          <FaArrowLeft />
+        </Button>
+        <Box
+          p={12}
+          borderWidth="1px"
+          shadow="lg"
+          borderRadius="xl"
+          maxW="md"
+          w="full"
+          bg="white"
+        >
+          <Heading
+            style={{
+              fontSize: "1.875rem",
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: "2rem",
+            }}
           >
-            {" "}
-            {loading ? "Logging in..." : "Login"}
-          </Button>
-        </form>
+            Login
+          </Heading>
+
+          {error && (
+            <Box color="red.500" fontSize="sm" mb={4}>
+              {error}
+            </Box>
+          )}
+
+          <form onSubmit={handleSignIn} className="w-full">
+            <Field.Root>
+              <Field.Label>
+                <Field.RequiredIndicator />
+              </Field.Label>
+              <Input
+                placeholder="Email"
+                variant="subtle"
+                type="email"
+                shadow="md"
+                bg="white"
+                value={email}
+                _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <Input
+                placeholder="Password"
+                variant="subtle"
+                type="password"
+                shadow="md"
+                value={password}
+                bg="white"
+                _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <Field.HelperText />
+              <Field.ErrorText />
+            </Field.Root>
+            <Button
+              type="submit"
+              colorScheme="blue"
+              width="full"
+              size="lg"
+              color="black"
+              // borderWidth="1px"
+              // borderColor="#B4EBE6"
+              shadow="md" // Adds shadow
+              disabled={loading}
+              bg="white"
+              justifyContent="center"
+              alignItems="center"
+              _hover={{ bg: "#B4EBE6" }}
+              mt={2}
+            >
+              {" "}
+              {loading ? "Logging in..." : "Login"}
+            </Button>
+
+            <Text fontFamily={"poppins"} textAlign={"center"} marginTop="10px">
+              Don't have an account?{" "}
+              <p onClick={() => navigate("/create-profile")}>
+                <Text
+                  as="span"
+                  cursor="pointer"
+                  textDecoration="underline"
+                  color="blue.500"
+                >
+                  Sign Up
+                </Text>
+              </p>
+            </Text>
+          </form>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
