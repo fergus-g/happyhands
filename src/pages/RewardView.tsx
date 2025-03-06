@@ -137,18 +137,39 @@ const RewardView: React.FC = () => {
   };
   return (
     <ProtectedRoute>
-      <Heading>Reward Dashboard</Heading>
+      {/* <Heading>Rewards</Heading> */}
 
-      <Box
+      {/* <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
         minH="100vh"
         px={4}
         bg="#80CBC4"
+      > */}
+      <Box
+        p={12}
+        borderWidth="1px"
+        shadow="lg"
+        borderRadius="xl"
+        maxW="md"
+        w="full"
+        bg="#b4ebe6"
       >
-        {/* <Box p={12} borderWidth="1px" shadow="lg" borderRadius="xl" maxW="md" w="full" bg="white">
-              <Heading style={{ fontSize: "1.875rem", fontWeight: "bold", textAlign: "center", marginBottom: "2rem" }}>Login</Heading> */}
+        <Heading
+        borderRadius="xl"
+        shadow="lg"
+          bg="purple"
+          color="white"
+          style={{
+            fontSize: "1.875rem",
+            fontWeight: "bold",
+            textAlign: "center",
+            marginBottom: "2rem",
+          }}
+        >
+          Rewards
+        </Heading>
 
         <div className="p-6">
           {/* <Heading >
