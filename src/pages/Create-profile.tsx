@@ -218,27 +218,39 @@ export default function CreateProfile() {
         ))}
 
         <Button
-          bg="blue.500"
-          color="white"
-          px={4}
-          py={2}
-          mb={3}
-          _hover={{ bg: "blue.600" }}
-          onClick={() => setKids([...kids, { name: "" }])}
+          type="submit"
+          colorScheme="blue"
+          width="full"
+          size="lg"
+          color="black"
+          shadow="md"
+          disabled={loading}
+          bg="white"
+          justifyContent="center"
+          alignItems="center"
+          _hover={{ bg: "#B4EBE6" }}
+          mt={2}
+          onClick={handleSignUp}
         >
           + Add Another Child
         </Button>
 
         <Button
+          type="submit"
+          colorScheme="blue"
           width="full"
-          bg="green.500"
-          color="white"
-          p={2}
-          _hover={{ bg: "green.600" }}
+          size="lg"
+          color="black"
+          shadow="md"
+          disabled={loading}
+          bg="white"
+          justifyContent="center"
+          alignItems="center"
+          _hover={{ bg: "#B4EBE6" }}
+          mt={2}
           onClick={handleSignUp}
-          isLoading={loading}
         >
-          Sign Up & Create Profile
+          {loading ? "Creating Profile..." : "Sign Up & Create Profile"}
         </Button>
       </Box>
     </Box>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.55% </span>
+                <span class="strong">67.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>137/209</span>
+                <span class='fraction'>149/221</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">11.11% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/10</span>
+                <span class='fraction'>1/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.55% </span>
+                <span class="strong">67.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>137/209</span>
+                <span class='fraction'>149/221</span>
             </div>
         
             
@@ -309,7 +309,19 @@
 <a name='L244'></a><a href='#L244'>244</a>
 <a name='L245'></a><a href='#L245'>245</a>
 <a name='L246'></a><a href='#L246'>246</a>
-<a name='L247'></a><a href='#L247'>247</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -537,6 +549,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -549,7 +567,13 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -775,27 +799,39 @@ export default function CreateProfile() {
         ))}
 &nbsp;
         &lt;Button
-          bg="blue.500"
-          color="white"
-          px={4}
-          py={2}
-          mb={3}
-          _hover={{ bg: "blue.600" }}
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; setKids([...kids, { name: "" }])}</span>
+          type="submit"
+          colorScheme="blue"
+          width="full"
+          size="lg"
+          color="black"
+          shadow="md"
+          disabled={loading}
+          bg="white"
+          justifyContent="center"
+          alignItems="center"
+          _hover={{ bg: "#B4EBE6" }}
+          mt={2}
+          onClick={handleSignUp}
         &gt;
           + Add Another Child
         &lt;/Button&gt;
 &nbsp;
         &lt;Button
+          type="submit"
+          colorScheme="blue"
           width="full"
-          bg="green.500"
-          color="white"
-          p={2}
-          _hover={{ bg: "green.600" }}
+          size="lg"
+          color="black"
+          shadow="md"
+          disabled={loading}
+          bg="white"
+          justifyContent="center"
+          alignItems="center"
+          _hover={{ bg: "#B4EBE6" }}
+          mt={2}
           onClick={handleSignUp}
-          isLoading={loading}
         &gt;
-          Sign Up &amp; Create Profile
+          {<span class="branch-0 cbranch-no" title="branch not covered" >loading ? "Creating Profile..." : "</span>Sign Up &amp; Create Profile"}
         &lt;/Button&gt;
       &lt;/Box&gt;
     &lt;/Box&gt;
@@ -808,7 +844,7 @@ export default function CreateProfile() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-06T09:10:45.761Z
+                at 2025-03-06T09:16:59.731Z
             </div>
         <script src="../prettify.js"></script>
         <script>
