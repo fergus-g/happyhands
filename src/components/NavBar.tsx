@@ -1,165 +1,236 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { FaBars, FaTimes } from "react-icons/fa"; // Added FaTimes for close icon
+import { Button, Box, Text, HStack, VStack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../utils/supabaseClient";
-import { Box, Button, HStack, Stack } from "@chakra-ui/react";
-
-interface Kid {
-  id: number;
-  name: string;
-}
 
 const NavBar: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [kids, setKids] = useState<Kid[]>([]);
+  const [parentName, setParentName] = useState<string>("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Explicit state for menu
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   useEffect(() => {
-    const fetchKids = async () => {
+    const fetchParentName = async () => {
       if (!user) return;
 
       try {
-        // ✅ Step 1: Get parent ID
-        const { data: parentData, error: parentError } = await supabase
+        const { data, error } = await supabase
           .from("soc_final_parents")
-          .select("id")
+          .select("name")
           .eq("auth_id", user.id)
           .single();
 
-        if (parentError) return;
+        if (error) {
+          console.error("Error fetching parent name:", error);
+          return;
+        }
 
-        const parentId = parentData.id;
-
-        // ✅ Step 2: Get only kids belonging to this parent
-        const { data: kidsData, error: kidsError } = await supabase
-          .from("soc_final_kids")
-          .select("id, name")
-          .eq("parent_id", parentId);
-
-        if (kidsError) return;
-
-        setKids(kidsData || []);
+        setParentName(data?.name || "");
       } catch (error) {
-        console.error("Error fetching kids:", error);
+        console.error("Error fetching parent name:", error);
       }
     };
 
-    fetchKids();
+    fetchParentName();
   }, [user]);
-
-  const handleKidSelection = (kidId: number) => {
-    navigate(`/kid/${kidId}`);
-  };
 
   const handleLogout = async () => {
     await logout(navigate);
   };
 
-  return (
-    <HStack
-      p={8}
-      backgroundColor={"#80CBC4"}
-      display="flex"
-      flexDirection="row"
-      justifyContent="space-between"
-      width="100vw"
-      height="100px"
-      position="sticky"
-      top="0"
-      zIndex="1000"
-    >
-      {" "}
-      {/* Left: Navigation Links */}
-      <Box display="flex" justifyContent="flex-end" gap={2}>
-        <Button
-          backgroundColor={"purple"}
-          onClick={() => navigate("/Dashboard")}
-          fontFamily="poppins"
-          _hover={{ backgroundColor: "indigo" }}
-        >
-          Dashboard
-        </Button>
-        <Button
-          backgroundColor={"purple"}
-          onClick={() => navigate("/Tasks")}
-          fontFamily="poppins"
-          _hover={{ backgroundColor: "indigo" }}
-        >
-          Tasks
-        </Button>
-        <Button
-          backgroundColor={"purple"}
-          onClick={() => navigate("/Rewards")}
-          fontFamily="poppins"
-          _hover={{ backgroundColor: "indigo" }}
-        >
-          Rewards
-        </Button>
-        <Button
-          backgroundColor={"purple"}
-          onClick={() => navigate("/Parent")}
-          fontFamily="poppins"
-          _hover={{ backgroundColor: "indigo" }}
-        >
-          Profile
-        </Button>
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false); // Close menu after navigation
+  };
 
-        {/* ✅ Kid Profile Dropdown
-        {kids.length > 0 && (
-          <li>
-            <select
-              className="text-black p-2 rounded"
-              onChange={(e) => handleKidSelection(parseInt(e.target.value))}
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Select Child Profile
-              </option>
-              {kids.map((kid) => (
-                <option key={kid.id} value={kid.id}>
-                  {kid.name}
-                </option>
-              ))}
-            </select>
-          </li>
-        )} */}
-      </Box>
-      {/* Right: Auth Controls */}
-      <div className="flex space-x-4">
-        {!user ? (
-          <>
+  return (
+    <Box position="relative">
+      <HStack
+        p={8}
+        backgroundColor={"#80CBC4"}
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        width="100vw"
+        height="100px"
+        position="sticky"
+        top="0"
+        zIndex="1000"
+      >
+        {/* Left: Navigation Links */}
+        <Box display={{ base: "none", md: "flex" }} gap={2}>
+          <Button
+            backgroundColor={"purple"}
+            onClick={() => navigate("/Dashboard")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            color="white"
+          >
+            Dashboard
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            onClick={() => navigate("/Tasks")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            color="white"
+          >
+            Tasks
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            onClick={() => navigate("/Rewards")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            color="white"
+          >
+            Rewards
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            onClick={() => navigate("/Parent")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            color="white"
+          >
+            Profile
+          </Button>
+        </Box>
+
+        {/* Mobile Hamburger Menu */}
+        <Box display={{ base: "flex", md: "none" }} alignItems="center">
+          <Button
+            onClick={toggleMenu}
+            variant="ghost"
+            color="purple"
+            aria-label="Toggle Menu"
+            _hover={{
+              color: "indigo", // Change this to your desired hover color
+              bg: "#B4EBE6", // Keeps background transparent on hover
+            }}
+          >
+            {isMenuOpen ? <FaTimes size={30} /> : <FaBars size={30} />}
+          </Button>
+        </Box>
+
+        {/* Right: Auth Controls */}
+        <Box display={{ base: "none", md: "flex" }} gap={2}>
+          {!user ? (
+            <>
+              <Button
+                backgroundColor={"purple"}
+                onClick={() => navigate("/Login")}
+                fontFamily="poppins"
+                _hover={{ backgroundColor: "indigo" }}
+                gap={2}
+              >
+                Login
+              </Button>
+              <Button
+                backgroundColor={"purple"}
+                onClick={() => navigate("/Sign Up")}
+                fontFamily="poppins"
+                _hover={{ backgroundColor: "indigo" }}
+              >
+                Sign Up
+              </Button>
+            </>
+          ) : (
+            <Box display="flex" gap={5}>
+              <Text mt={1.5}>Welcome, {parentName || "Guest"}</Text>
+              <Button
+                backgroundColor={"purple"}
+                onClick={handleLogout}
+                fontFamily="poppins"
+                _hover={{ backgroundColor: "indigo" }}
+                color="white"
+              >
+                Log Out
+              </Button>
+            </Box>
+          )}
+        </Box>
+      </HStack>
+
+      {/* Mobile Menu Dropdown */}
+      {isMenuOpen && (
+        <VStack
+          display={{ base: "flex", md: "none" }}
+          position="absolute"
+          top="100px"
+          left="0"
+          right="0"
+          backgroundColor={"#80CBC4"}
+          zIndex="999"
+          spacing={4}
+          p={4}
+          width="100vw"
+          boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
+        >
+          <Button
+            backgroundColor={"purple"}
+            onClick={() => handleNavigation("/Dashboard")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            color="white"
+            width="100%"
+          >
+            Dashboard
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            onClick={() => handleNavigation("/Tasks")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            color="white"
+            width="100%"
+          >
+            Tasks
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            onClick={() => handleNavigation("/Rewards")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            color="white"
+            width="100%"
+          >
+            Rewards
+          </Button>
+          <Button
+            backgroundColor={"purple"}
+            onClick={() => handleNavigation("/Parent")}
+            fontFamily="poppins"
+            _hover={{ backgroundColor: "indigo" }}
+            color="white"
+            width="100%"
+          >
+            Profile
+          </Button>
+          {user && (
             <Button
               backgroundColor={"purple"}
-              onClick={() => navigate("/Login")}
+              onClick={() => {
+                handleLogout();
+                setIsMenuOpen(false);
+              }}
               fontFamily="poppins"
               _hover={{ backgroundColor: "indigo" }}
-            >
-              Login
-            </Button>
-            <Button
-              backgroundColor={"purple"}
-              onClick={() => navigate("/Sign Up")}
-              fontFamily="poppins"
-              _hover={{ backgroundColor: "indigo" }}
-            >
-              Sign Up
-            </Button>
-          </>
-        ) : (
-          <>
-            <span className="text-sm text-gray-100">Welcome, {user.id}</span>
-            <Button
-              backgroundColor={"purple"}
-              onClick={() => handleLogout()}
-              fontFamily="poppins"
-              _hover={{ backgroundColor: "indigo" }}
+              color="white"
+              width="100%"
             >
               Log Out
             </Button>
-          </>
-        )}
-      </div>
-    </HStack>
+          )}
+        </VStack>
+      )}
+    </Box>
   );
 };
 
