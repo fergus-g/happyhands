@@ -92,7 +92,8 @@ const TaskView: React.FC = () => {
 
   const fetchTaskHistory = async () => {
     try {
-      // ✅ Step 1: Get the logged-in parent's ID
+      console.log("📡 Fetching Task History...");
+
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
       if (userError || !userData?.user)
@@ -109,40 +110,43 @@ const TaskView: React.FC = () => {
 
       const parentId = parentData.id;
 
-      // ✅ Step 2: Fetch only completed tasks where the child's parent matches the logged-in parent
-      // ✅ Fetch only completed tasks where the parent's child matches
+      // ✅ Fetch completed tasks linked to parent's child
       const { data: taskHistoryData, error: taskHistoryError } = await supabase
         .from("soc_final_task_history")
         .select(
           "id, name, completed_by, reward_value, soc_final_kids!inner(id, name, parent_id)"
-        ) // Fix here
+        )
         .eq("soc_final_kids.parent_id", parentId);
 
       if (taskHistoryError) throw new Error("Error fetching task history");
 
-      // ✅ Type filteredTaskHistory correctly
+      console.log("📋 Raw Task History Data from Supabase:", taskHistoryData);
+
+      // ✅ Log soc_final_kids field
+      taskHistoryData.forEach((task) => {
+        console.log(`🧐 Task ${task.id} Completed By:`, task.completed_by);
+        console.log("🧒 soc_final_kids field:", task.soc_final_kids);
+      });
+
+      // ✅ Fix data structure issue
       const filteredTaskHistory: TaskHistoryWithKid[] = taskHistoryData
-        .map((task) => ({
-          ...task,
-          soc_final_kids: task.soc_final_kids[0] as {
-            id: number;
-            name: string;
-            parent_id: number;
-            completed: boolean;
-            currency: number;
-          },
-        }))
+        .map((task) => {
+          console.log("🔄 Before Filtering:", task); // ✅ Debugging Log
+
+          return {
+            ...task,
+            soc_final_kids: task.soc_final_kids
+              ? { ...task.soc_final_kids }
+              : null, // ✅ Ensure object copy
+          };
+        })
         .filter((task) => task.soc_final_kids !== null);
-      console.log("Filtered Task History Data:", filteredTaskHistory); // ✅ Debugging Log
-      setTaskHistory(filteredTaskHistory);
-      // ✅ Step 3: Remove tasks where the completed child is null (in case of bad data)
-      // const filteredTaskHistory = taskHistoryData.filter(
-      //   (task) => task.soc_final_kids !== null
-      // );
+
+      console.log("🎯 Filtered Task History Data:", filteredTaskHistory);
 
       setTaskHistory(filteredTaskHistory);
     } catch (err) {
-      console.error("Error fetching task history:", err);
+      console.error("❌ Error fetching task history:", err);
     }
   };
 
@@ -236,36 +240,28 @@ const TaskView: React.FC = () => {
   const completeTask = async (task: TaskWithKid) => {
     setLoadingTaskId(task.id); // Set loading state for the specific task
     try {
-      const { data: kidData, error: kidError } = await supabase
-        .from("soc_final_kids")
-        .select("currency")
-        .eq("id", task.assigned_to)
-        .single();
+      console.log("✅ Completing Task:", task);
 
-      if (kidError || !kidData)
-        throw new Error("Error fetching kid's current currency");
-
-      const newCurrency = kidData.currency + task.reward_value;
-
-      const { error: historyError } = await supabase
+      // ✅ Move task to history
+      const { data: historyData, error: historyError } = await supabase
         .from("soc_final_task_history")
         .insert([
           {
             name: task.name,
-            completed_by: task.assigned_to,
+            completed_by: task.assigned_to, // ✅ Save the child's ID
             reward_value: task.reward_value,
           },
-        ]);
+        ])
+        .select("*"); // ✅ Fetch inserted row for debugging
 
-      if (historyError) throw new Error("Error moving task to history");
+      if (historyError) {
+        console.error("❌ Error moving task to history:", historyError);
+        return;
+      }
 
-      const { error: updateError } = await supabase
-        .from("soc_final_kids")
-        .update({ currency: newCurrency })
-        .eq("id", task.assigned_to);
+      console.log("📜 Task added to history:", historyData);
 
-      if (updateError) throw new Error("Error updating currency");
-
+      // ✅ Delete from active tasks
       const { error: deleteError } = await supabase
         .from("soc_final_tasks")
         .delete()
@@ -273,16 +269,16 @@ const TaskView: React.FC = () => {
 
       if (deleteError) throw new Error("Error deleting task");
 
+      // ✅ Fetch updated tasks & task history
       await fetchTasks();
       await fetchTaskHistory();
-      setNewTaskCompleted(true); // ✅ Notify parent that a new task was completed
-
+      setNewTaskCompleted(true); // ✅ Show "New Task Completed" message
       showToast("Task completed successfully");
-    } catch (err: unknown) {
-      console.error("Error:", err);
+    } catch (err) {
+      console.error("❌ Error:", err);
       showToast("Error completing task");
     }
-    setLoadingTaskId(null); // Reset loading state for the specific task
+    setLoadingTaskId(null);
   };
 
   return (
@@ -464,7 +460,10 @@ const TaskView: React.FC = () => {
               >
                 <Text fontWeight="bold">{task.name}</Text>
                 <Text>
-                  Completed by: {task.soc_final_kids?.name || "Unknown"}
+                  Completed by:{" "}
+                  {task.soc_final_kids?.name
+                    ? task.soc_final_kids.name
+                    : "Unknown"}
                 </Text>
                 <Text>Reward Earned: {task.reward_value} coins</Text>
               </Box>
