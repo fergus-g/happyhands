@@ -77,7 +77,7 @@ export default function Dashboard() {
             .eq("parent_id", parentId)
             .eq("approved", false)) as unknown as {
             data: RedemptionWithReward[];
-            error: any;
+            error: string;
           };
 
         if (redemptionsError) throw new Error(redemptionsError.message);
@@ -130,8 +130,19 @@ export default function Dashboard() {
   };
 
   return (
-    <Box p={6}>
-      <Heading mb={4} fontSize="1.875rem" fontWeight="bold">
+    <Box
+      p={6}
+      display={"flex"}
+      justifyContent={"center"}
+      alignContent={"center"}
+      flexDirection={"column"}
+    >
+      <Heading
+        mb={4}
+        fontSize="1.875rem"
+        fontWeight="bold"
+        alignSelf={"center"}
+      >
         Parent Dashboard
       </Heading>
 
@@ -141,7 +152,13 @@ export default function Dashboard() {
       {/* -------------------- Section: Kids List ----------------------- */}
       {kids.length > 0 ? (
         <VStack gap={4} align="stretch" mt={4}>
-          <Heading as="h2" size="lg" mb={2} fontWeight="bold">
+          <Heading
+            as="h2"
+            size="lg"
+            mb={2}
+            fontWeight="bold"
+            alignSelf={"center"}
+          >
             Your Children
           </Heading>
           {kids.map((kid) => (
@@ -154,30 +171,51 @@ export default function Dashboard() {
               boxShadow="lg"
               bg="#B2DFDB"
               _hover={{ boxShadow: "xl" }}
+              width="50%"
+              alignSelf={"center"}
+              display={"flex"}
+              flexDirection={"column"}
             >
-              <Heading as="h3" size="md" mb={2} fontWeight="bold">
+              <Heading
+                as="h3"
+                size="md"
+                mb={2}
+                fontWeight="bold"
+                alignSelf={"center"}
+              >
                 {kid.name}
               </Heading>
-              <Text>
+              <Text alignSelf={"center"}>
                 Current Coins: <strong>{kid.currency}</strong>
               </Text>
 
               <Button
                 colorScheme="teal"
-                onClick={() => setQrCodeKidId(kid.id)}
+                onClick={() => {
+                  setQrCodeKidId((prev) => (prev === kid.id ? null : kid.id)); // Toggle QR code visibility
+                }}
                 mt={3}
                 bg="white"
                 color="black"
                 shadow="md"
                 _hover={{ bg: "#80CBC4", color: "black" }}
                 _active={{ bg: "#80CBC4" }}
+                alignSelf={"center"}
               >
                 Give Access
               </Button>
 
               {qrCodeKidId === kid.id && (
-                <Box mt={4} textAlign="center">
+                <Box
+                  mt={4}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  textAlign="center"
+                >
                   <Text>Scan this QR code to access {kid.name}'s profile:</Text>
+                  <br />
                   <QRCode
                     value={`${window.location.origin}/kid/${kid.id}`}
                     size={150}
