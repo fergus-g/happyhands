@@ -59,7 +59,7 @@ const NavBar: React.FC = () => {
       {/* Left: Navigation Links */}
       <ul className="flex space-x-4">
         <li>
-          <Link to="/">Dashboard</Link>
+          <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>
           <Link to="/tasks">Tasks</Link>
@@ -71,7 +71,7 @@ const NavBar: React.FC = () => {
           <Link to="/parent">Parent Profile</Link>
         </li>
 
-        {/* ✅ Kid Profile Dropdown */}
+        {/* ✅ Kid Profile Dropdown
         {kids.length > 0 && (
           <li>
             <select
@@ -89,7 +89,7 @@ const NavBar: React.FC = () => {
               ))}
             </select>
           </li>
-        )}
+        )} */}
       </ul>
 
       {/* Right: Auth Controls */}
