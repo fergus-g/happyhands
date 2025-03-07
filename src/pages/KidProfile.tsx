@@ -190,12 +190,20 @@ const KidProfile: React.FC = () => {
               borderRadius="md"
               w="full"
               textAlign="center"
-              _hover={{transform: "scale(1.05)", 
-                transition: "transform 0.2s ease-in-out"}}
+              _hover={{
+                transform: "scale(1.05)",
+                transition: "transform 0.2s ease-in-out",
+              }}
             >
               {kid.name}'s Profile
-              <AvatarGroup p={4} color="purple" _hover={{transform: "scale(1.05)", 
-                      transition: "transform 0.2s ease-in-out"}}>
+              <AvatarGroup
+                p={4}
+                color="purple"
+                _hover={{
+                  transform: "scale(1.05)",
+                  transition: "transform 0.2s ease-in-out",
+                }}
+              >
                 <Avatar.Root>
                   <Avatar.Fallback name={`${kid.name}'s Avatar`} />
 
@@ -204,12 +212,17 @@ const KidProfile: React.FC = () => {
               </AvatarGroup>
             </Heading>
 
-
             {/* Coins Info */}
-            <Text textAlign="center" bg="white" fontSize="xl" _hover={{transform: "scale(1.05)", 
-                      transition: "transform 0.2s ease-in-out"}}>
+            <Text
+              textAlign="center"
+              bg="white"
+              fontSize="xl"
+              _hover={{
+                transform: "scale(1.05)",
+                transition: "transform 0.2s ease-in-out",
+              }}
+            >
               <strong>Gems:</strong> {kid.currency} 💎
-
             </Text>
 
             {/* ------------------ Assigned Tasks -------------------- */}
@@ -220,8 +233,10 @@ const KidProfile: React.FC = () => {
               textAlign="center"
               mt={4}
               bg="white"
-              _hover={{transform: "scale(1.05)", 
-                transition: "transform 0.2s ease-in-out"}}
+              _hover={{
+                transform: "scale(1.05)",
+                transition: "transform 0.2s ease-in-out",
+              }}
             >
               Assigned Tasks
             </Heading>
@@ -236,8 +251,13 @@ const KidProfile: React.FC = () => {
                     w="full"
                     textAlign="center"
                     shadow="md"
-                    _hover={{borderColor:"purple", borderWidth:"1px",  transform: "scale(1.05)", 
-                      transition: "transform 0.2s ease-in-out"}}>
+                    _hover={{
+                      borderColor: "purple",
+                      borderWidth: "1px",
+                      transform: "scale(1.05)",
+                      transition: "transform 0.2s ease-in-out",
+                    }}
+                  >
                     <Text bg="white" p={3} mt={4}>
                       <strong>{task.name}</strong> - {task.reward_value} gems
                     </Text>
@@ -271,8 +291,10 @@ const KidProfile: React.FC = () => {
               textAlign="center"
               mt={4}
               bg="white"
-              _hover={{transform: "scale(1.05)", 
-                transition: "transform 0.2s ease-in-out"}}
+              _hover={{
+                transform: "scale(1.05)",
+                transition: "transform 0.2s ease-in-out",
+              }}
             >
               Redeem Rewards
             </Heading>
@@ -287,8 +309,12 @@ const KidProfile: React.FC = () => {
                     w="full"
                     textAlign="center"
                     shadow="md"
-                    _hover={{borderColor:"purple", borderWidth:"1px", transform: "scale(1.05)", 
-                      transition: "transform 0.2s ease-in-out"}}
+                    _hover={{
+                      borderColor: "purple",
+                      borderWidth: "1px",
+                      transform: "scale(1.05)",
+                      transition: "transform 0.2s ease-in-out",
+                    }}
                   >
                     <Text bg="white" p={3} mt={4}>
                       <strong>{reward.name}</strong> - {reward.cost} gems
