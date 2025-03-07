@@ -25,12 +25,12 @@ Happy Hands is an interactive application designed to help parents encourage pos
 
 ## Team Members
 
-- Giuseppe
-- Fergus
-- Joseph
-- Charlotte
-- Jon
-- Sami
+- Giuseppe Landolfi
+- Fergus Gildea
+- Joseph Kyriakides
+- Charlotte Bell
+- Jon Lee
+- Sami Azil.
 
 ## Getting Started
 
