@@ -100,14 +100,13 @@ const RewardView: React.FC = () => {
 
   return (
     <ProtectedRoute>
-      <Box bg="#B2DFDB" p={4} rounded="md" mb={4} shadow="lg">
+      <Box  p={4} rounded="md" mb={4} shadow="lg">
         <Heading
           mt={2}
-          bg="#800080"
-          color="white"
+          justifyContent="center"
+          color="black"
           p={4}
           borderRadius="xl"
-          shadow="md"
           fontSize="1.875rem"
           fontWeight="bold"
           textAlign="center"
@@ -118,17 +117,23 @@ const RewardView: React.FC = () => {
           Rewards
         </Heading>
 
-        <VStack gap={4} align="stretch">
+        <VStack gap={4} align="stretch" >
           {/* ------------------------ Reward Creation Form ---------------------*/}
-          <Box bg="gray.100" p={4} rounded="md" mb={4}>
-            <Text fontSize="xl" fontWeight="semibold" mb={4}>
+          <Box bg="#80cbc4" p={4} rounded="md" mb={4} display="flex" 
+            flexDirection="column" 
+            alignItems="center"
+            width="100vw">
+            <Text fontSize="xl" fontWeight="semibold" mb={4} textAlign="center">
               Create Reward
             </Text>
             <Input
               value={rewardName}
               onChange={(e) => setRewardName(e.target.value)}
               placeholder="Reward Name"
+              bg="white"
               mb={4}
+              width="75%"
+              p={3}
               variant="outline"
             />
 
@@ -138,6 +143,10 @@ const RewardView: React.FC = () => {
               onChange={(e) => setRewardCost(e.target.value)}
               placeholder="Enter Reward Value..."
               mb={4}
+              p={3}
+              bg="white"
+              width="75%"
+              justifyContent="center"
               variant="outline"
             />
 
@@ -146,7 +155,7 @@ const RewardView: React.FC = () => {
               bg="#800080"
               color="white"
               width="auto"
-              _hover={{ bg: "#80CBC4" }}
+              _hover={{ bg: "indigo" }}
               disabled={loading}
             >
               {loading ? <Spinner size="sm" color="white" /> : "Create Reward"}
@@ -239,7 +248,7 @@ const RewardView: React.FC = () => {
               ))}
             </Box>
           ) : (
-            <Text>No rewards available.</Text>
+            <Text textAlign="center">No rewards available.</Text>
           )}
         </VStack>
       </Box>
