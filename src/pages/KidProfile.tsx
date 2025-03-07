@@ -160,7 +160,9 @@ const KidProfile: React.FC = () => {
         // bg="#80CBC4"
         minH="100%"
         width="100%"
+        height="100vh"
         mx="auto"
+        bg="rgba(128, 0, 128, 0.7)"
         color="purple"
         px={{ base: 4, md: 8 }}
       >
@@ -174,6 +176,7 @@ const KidProfile: React.FC = () => {
           p={3}
           shadow="md"
           bg="white"
+          opacity="1"
           borderRadius="xl"
         >
           <Stack p={6} align="center" w="full" bg="white">
