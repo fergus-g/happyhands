@@ -283,8 +283,18 @@ const TaskView: React.FC = () => {
 
   return (
     <ProtectedRoute>
-      <Box p={6}>
-        <Heading mb={4} style={{ fontSize: "1.875rem", fontWeight: "bold" }}>
+      <Box
+        p={6}
+        display="flex"
+        alignContent={"center"}
+        flexDirection="column"
+        justifyContent={"center"}
+      >
+        <Heading
+          mb={4}
+          style={{ fontSize: "1.875rem", fontWeight: "bold" }}
+          alignSelf="center"
+        >
           Task View
         </Heading>
 
@@ -297,104 +307,133 @@ const TaskView: React.FC = () => {
           borderWidth="1px"
           borderColor="#80CBC4"
           shadow="lg"
+          alignSelf="center"
+          display="flex"
+          flexDirection={"column"}
+          width="50%"
         >
-          <Heading size="md" mb={2} style={{ fontWeight: "bold" }}>
+          <Heading
+            size="md"
+            mb={2}
+            style={{ fontWeight: "bold" }}
+            alignSelf="center"
+          >
             Create Task
           </Heading>
-          <div>
-            <label htmlFor="taskName" style={{ fontWeight: "bold" }}>
-              Task Name
-            </label>
-            <Input
-              id="taskName"
-              value={taskName}
-              onChange={(e) => setTaskName(e.target.value)}
-              placeholder="Task Name"
-              variant="outline"
-              _hover={{ borderColor: "#80CBC4", borderWidth: "2px" }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="rewardValue" style={{ fontWeight: "bold" }}>
-              Reward Value
-            </label>
-            <Input
-              id="rewardValue"
-              type="number"
-              value={rewardValue}
-              onChange={(e) => setRewardValue(parseInt(e.target.value, 10))}
-              placeholder="Reward Value"
-              min="1"
-              variant="outline"
-              _hover={{ borderColor: "#80CBC4", borderWidth: "2px" }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="kidSelect" style={{ fontWeight: "bold" }}>
-              Assign to Kid
-            </label>
-            <select
-              id="kidSelect"
-              value={selectedKidId}
-              onChange={(e) => {
-                setSelectedKidId(
-                  e.target.value === "all"
-                    ? "all"
-                    : parseInt(e.target.value, 10)
-                );
-              }}
-              style={{
-                padding: "8px",
-                borderRadius: "4px",
-                borderWidth: "1px",
-                borderColor: "#80CBC4",
-              }}
-            >
-              <option value="all">All Kids</option>
-              {kids.map((kid) => (
-                <option key={kid.id} value={kid.id}>
-                  {kid.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <Button
-            colorScheme="teal"
-            onClick={createTask}
-            mt={3}
-            bg="white"
-            color="black"
-            shadow="md"
-            _hover={{ bg: "#80CBC4", color: "black" }}
-            _active={{ bg: "#80CBC4" }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "75%",
+              maxWidth: "600px", // Adjust as needed
+              margin: "0 auto",
+            }}
           >
-            {loading ? <Spinner size="sm" /> : "Create Task"}
-          </Button>
+            <div style={{ width: "100%" }}>
+              <label htmlFor="taskName" style={{ fontWeight: "bold" }}>
+                Task Name
+              </label>
+              <Input
+                backgroundColor="white"
+                id="taskName"
+                value={taskName}
+                onChange={(e) => setTaskName(e.target.value)}
+                placeholder="Task Name"
+                variant="outline"
+                _hover={{ borderColor: "#80CBC4", borderWidth: "2px" }}
+                marginBottom="10px"
+                width="100%"
+              />
+            </div>
+
+            <div style={{ width: "100%" }}>
+              <label htmlFor="rewardValue" style={{ fontWeight: "bold" }}>
+                Reward Value
+              </label>
+              <Input
+                id="rewardValue"
+                backgroundColor="white"
+                type="number"
+                value={rewardValue}
+                onChange={(e) => setRewardValue(parseInt(e.target.value, 10))}
+                placeholder="Reward Value"
+                min="1"
+                variant="outline"
+                _hover={{ borderColor: "#80CBC4", borderWidth: "2px" }}
+                marginBottom="10px"
+                width="100%"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="kidSelect" style={{ fontWeight: "bold" }}>
+                Assign to Kid
+              </label>
+              <select
+                id="kidSelect"
+                value={selectedKidId}
+                onChange={(e) => {
+                  setSelectedKidId(
+                    e.target.value === "all"
+                      ? "all"
+                      : parseInt(e.target.value, 10)
+                  );
+                }}
+                style={{
+                  padding: "8px",
+                  borderRadius: "4px",
+                  borderWidth: "1px",
+                  borderColor: "#80CBC4",
+                  marginLeft: "10px",
+                }}
+              >
+                <option value="all">All Kids</option>
+                {kids.map((kid) => (
+                  <option key={kid.id} value={kid.id}>
+                    {kid.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <Button
+              colorScheme="teal"
+              onClick={createTask}
+              mt={3}
+              bg="white"
+              color="black"
+              shadow="md"
+              _hover={{ bg: "#80CBC4", color: "black" }}
+              _active={{ bg: "#80CBC4" }}
+            >
+              {loading ? <Spinner size="sm" /> : "Create Task"}
+            </Button>
+          </div>
         </Box>
 
         {/* ---------------------------- Task List --------------------------------- */}
         {tasks.length > 0 && (
-          <Box mb={6}>
-            <Box display="flex" alignItems="center">
+          <Box
+            mb={6}
+            display="flex"
+            flexDirection="column"
+            width="50%"
+            justifySelf={"center"}
+            alignSelf={"center"}
+          >
+            <Box display="flex" alignSelf="center">
               <Heading size="md" mb={2} style={{ fontWeight: "bold" }}>
                 Assigned Tasks
               </Heading>
               {newTaskCompleted && (
-                <Text ml={3} color="red.500" fontWeight="bold">
-                  New Task Completed! ✅
-                </Text>
-              )}
-            </Box>
-
-            <Box display="flex" alignItems="center">
-              <Heading size="md" mb={2} style={{ fontWeight: "bold" }}>
-                Assigned Tasks
-              </Heading>
-              {newTaskCompleted && (
-                <Text ml={3} color="red.500" fontWeight="bold">
+                <Text
+                  ml={3}
+                  color="red.500"
+                  fontWeight="bold"
+                  alignSelf="center"
+                >
                   New Task Completed! ✅
                 </Text>
               )}
@@ -410,15 +449,19 @@ const TaskView: React.FC = () => {
                 borderWidth="1px"
                 borderColor="#80CBC4"
                 shadow="lg"
+                display="flex"
+                flexDirection="column"
               >
-                <Text fontWeight="bold">
+                <Text fontWeight="bold" alignSelf="center">
                   {task.name}
                   {task.completed ? "✅" : "❌"}
                 </Text>
-                <Text>
+                <Text alignSelf="center">
                   Assigned to: {task.soc_final_kids?.name || "Unknown"}
                 </Text>
-                <Text>Reward: {task.reward_value} coins</Text>
+                <Text alignSelf="center">
+                  Reward: {task.reward_value} coins
+                </Text>
 
                 <Button
                   colorScheme="teal"
@@ -429,6 +472,7 @@ const TaskView: React.FC = () => {
                   shadow="md"
                   _hover={{ bg: "#80CBC4" }}
                   _active={{ bg: "#80CBC4" }}
+                  alignSelf="center"
                 >
                   {loadingTaskId === task.id ? (
                     <Spinner size="sm" />
@@ -442,37 +486,50 @@ const TaskView: React.FC = () => {
         )}
 
         {/* ----------------------------- Task History Section ----------------------------- */}
+
         {taskHistory.length > 0 && (
-          <Box mt={6}>
-            <Heading size="md" mb={2} style={{ fontWeight: "bold" }}>
+          <Box mt={6} display="flex" flexDirection="column">
+            <Heading
+              size="md"
+              mb={2}
+              style={{
+                fontWeight: "bold",
+                alignSelf: "center",
+              }}
+            >
               Task History
             </Heading>
             {taskHistory.map((task) => (
               <Box
                 key={task.id}
                 p={3}
-                bg="#B2EBF2"
+                bg="lavender"
                 rounded="md"
                 mb={2}
                 borderWidth="1px"
                 borderColor="#80CBC4"
                 shadow="lg"
+                width="50%"
+                alignSelf="center"
+                display={"flex"}
+                flexDirection={"column"}
               >
-                <Text fontWeight="bold">{task.name}</Text>
-                <Text>
-                  Completed by:{" "}
-                  {task.soc_final_kids?.name
-                    ? task.soc_final_kids.name
-                    : "Unknown"}
+                <Text fontWeight="bold" alignSelf="center">
+                  {task.name}
                 </Text>
-                <Text>Reward Earned: {task.reward_value} coins</Text>
+                <Text alignSelf="center">
+                  Completed by: {task.soc_final_kids?.name || "Unknown"}
+                </Text>
+                <Text alignSelf="center">
+                  Reward Earned: {task.reward_value} coins
+                </Text>
               </Box>
             ))}
           </Box>
         )}
-
-        <ToastContainer />
       </Box>
+
+      <ToastContainer />
     </ProtectedRoute>
   );
 };
