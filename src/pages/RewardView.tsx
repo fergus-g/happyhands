@@ -63,20 +63,22 @@ const RewardView: React.FC = () => {
         await supabase.auth.getUser();
       if (userError) throw new Error("User not found");
 
-      const authUserId = userData.user.id;
-
       const { data: parentData, error: parentError } = await supabase
         .from("soc_final_parents")
         .select("id")
-        .eq("auth_id", authUserId)
+        .eq("auth_id", userData.user.id)
         .single();
 
       if (parentError) throw new Error("Parent not found");
       const parentId = parentData.id;
 
-      await supabase
+      const { error: insertError } = await supabase
         .from("soc_final_rewards")
-        .insert([{ name: rewardName, cost: numericRewardCost }]);
+        .insert([
+          { name: rewardName, cost: numericRewardCost, parent_id: parentId },
+        ]);
+
+      if (insertError) throw insertError;
 
       const { data: updatedRewards, error: fetchError } = await supabase
         .from("soc_final_rewards")
@@ -84,58 +86,15 @@ const RewardView: React.FC = () => {
         .eq("parent_id", parentId);
 
       if (fetchError) throw new Error("Error fetching rewards");
-
       setRewards(updatedRewards);
+
+      // Reset fields after successful insertion
+      setRewardName("");
+      setRewardCost("");
     } catch (err) {
       console.error("Error:", err);
     }
 
-    setLoading(false);
-  };
-
-  const editReward = async () => {
-    if (!editingReward || !editedName.trim() || editedCost <= 0) return;
-
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from("soc_final_rewards")
-        .update({ name: editedName, cost: editedCost })
-        .eq("id", editingReward.id);
-
-      if (error) throw new Error("Error updating reward");
-
-      setEditingReward(null);
-      setEditedName("");
-      setEditedCost(1);
-
-      const { data: updatedRewards, error: fetchError } = await supabase
-        .from("soc_final_rewards")
-        .select("*")
-        .eq("parent_id", editingReward.parent_id);
-
-      if (fetchError) throw new Error("Error fetching rewards");
-      setRewards(updatedRewards);
-    } catch (err) {
-      console.error("Error:", err);
-    }
-    setLoading(false);
-  };
-
-  const deleteReward = async (rewardId: number) => {
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from("soc_final_rewards")
-        .delete()
-        .eq("id", rewardId);
-
-      if (error) throw new Error("Error deleting reward");
-
-      setRewards((prev) => prev.filter((reward) => reward.id !== rewardId));
-    } catch (err) {
-      console.error("Error:", err);
-    }
     setLoading(false);
   };
 
@@ -285,25 +244,6 @@ const RewardView: React.FC = () => {
                     <strong>{reward.name}</strong>
                   </p>
                   <p>Cost: {reward.cost} gems</p>
-
-                  <Button
-                    onClick={() => {
-                      setEditingReward(reward);
-                      setEditedName(reward.name);
-                      setEditedCost(reward.cost);
-                    }}
-                    colorScheme="blue"
-                    mr={2}
-                  >
-                    Edit
-                  </Button>
-
-                  <Button
-                    onClick={() => deleteReward(reward.id)}
-                    colorScheme="red"
-                  >
-                    Delete
-                  </Button>
                 </Box>
               ))}
             </Box>
