@@ -1,7 +1,5 @@
 # Happy Hands
 
-![Happy Hands Logo](https://via.placeholder.com/150x150)
-
 ## Overview
 
 Happy Hands is an interactive application designed to help parents encourage positive behavior in their children through a gamified chore and mission system. Children can earn rewards for completing tasks set by their parents, promoting responsibility and family engagement.
