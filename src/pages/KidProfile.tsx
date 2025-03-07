@@ -201,10 +201,12 @@ const KidProfile: React.FC = () => {
               </AvatarGroup>
             </Heading>
 
+
             {/* Coins Info */}
             <Text textAlign="center" bg="white" fontSize="xl" _hover={{transform: "scale(1.05)", 
                       transition: "transform 0.2s ease-in-out"}}>
-              <strong>Coins:</strong> {kid.currency} 🪙
+              <strong>Gems:</strong> {kid.currency} 💎
+
             </Text>
 
             {/* ------------------ Assigned Tasks -------------------- */}
@@ -234,7 +236,7 @@ const KidProfile: React.FC = () => {
                     _hover={{borderColor:"purple", borderWidth:"1px",  transform: "scale(1.05)", 
                       transition: "transform 0.2s ease-in-out"}}>
                     <Text bg="white" p={3} mt={4}>
-                      <strong>{task.name}</strong> - {task.reward_value} coins
+                      <strong>{task.name}</strong> - {task.reward_value} gems
                     </Text>
                     <Button
                       colorScheme="green"
@@ -286,7 +288,7 @@ const KidProfile: React.FC = () => {
                       transition: "transform 0.2s ease-in-out"}}
                   >
                     <Text bg="white" p={3} mt={4}>
-                      <strong>{reward.name}</strong> - {reward.cost} coins
+                      <strong>{reward.name}</strong> - {reward.cost} gems
                     </Text>
                     <Button
                       px={4}
