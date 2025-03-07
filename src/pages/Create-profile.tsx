@@ -244,7 +244,6 @@ export default function CreateProfile() {
           alignItems="center"
           _hover={{ bg: "#B4EBE6" }}
           mt={2}
-          onClick={handleSignUp}
         >
           + Add Another Child
         </Button>
