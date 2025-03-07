@@ -157,10 +157,11 @@ const KidProfile: React.FC = () => {
         alignItems="center"
         p={6}
         shadow="md"
-        bg="#80CBC4"
+        // bg="#80CBC4"
         minH="100%"
         width="100%"
         mx="auto"
+        color="purple"
         px={{ base: 4, md: 8 }}
       >
         {/* Confetti Component */}
@@ -186,9 +187,12 @@ const KidProfile: React.FC = () => {
               borderRadius="md"
               w="full"
               textAlign="center"
+              _hover={{transform: "scale(1.05)", 
+                transition: "transform 0.2s ease-in-out"}}
             >
               {kid.name}'s Profile
-              <AvatarGroup p={4}>
+              <AvatarGroup p={4} color="purple" _hover={{transform: "scale(1.05)", 
+                      transition: "transform 0.2s ease-in-out"}}>
                 <Avatar.Root>
                   <Avatar.Fallback name={`${kid.name}'s Avatar`} />
 
@@ -197,9 +201,12 @@ const KidProfile: React.FC = () => {
               </AvatarGroup>
             </Heading>
 
+
             {/* Coins Info */}
-            <Text textAlign="center" bg="white" fontSize="xl">
-              <strong>Coins:</strong> {kid.currency} 🪙
+            <Text textAlign="center" bg="white" fontSize="xl" _hover={{transform: "scale(1.05)", 
+                      transition: "transform 0.2s ease-in-out"}}>
+              <strong>Gems:</strong> {kid.currency} 💎
+
             </Text>
 
             {/* ------------------ Assigned Tasks -------------------- */}
@@ -210,6 +217,8 @@ const KidProfile: React.FC = () => {
               textAlign="center"
               mt={4}
               bg="white"
+              _hover={{transform: "scale(1.05)", 
+                transition: "transform 0.2s ease-in-out"}}
             >
               Assigned Tasks
             </Heading>
@@ -224,18 +233,19 @@ const KidProfile: React.FC = () => {
                     w="full"
                     textAlign="center"
                     shadow="md"
-                  >
+                    _hover={{borderColor:"purple", borderWidth:"1px",  transform: "scale(1.05)", 
+                      transition: "transform 0.2s ease-in-out"}}>
                     <Text bg="white" p={3} mt={4}>
-                      <strong>{task.name}</strong> - {task.reward_value} coins
+                      <strong>{task.name}</strong> - {task.reward_value} gems
                     </Text>
                     <Button
                       colorScheme="green"
                       onClick={() => markTaskComplete(task.id)}
                       mt={2}
-                      bg="white"
-                      color="black"
+                      bg="purple"
+                      color="white"
                       shadow="md"
-                      _hover={{ bg: "#80CBC4" }}
+                      _hover={{ bg: "indigo" }}
                       _active={{ bg: "#80CBC4" }}
                       disabled={task.completed}
                     >
@@ -258,6 +268,8 @@ const KidProfile: React.FC = () => {
               textAlign="center"
               mt={4}
               bg="white"
+              _hover={{transform: "scale(1.05)", 
+                transition: "transform 0.2s ease-in-out"}}
             >
               Redeem Rewards
             </Heading>
@@ -272,10 +284,11 @@ const KidProfile: React.FC = () => {
                     w="full"
                     textAlign="center"
                     shadow="md"
-                    _hover={{ borderColor: "#B4EBE6", borderWidth: "1px" }}
+                    _hover={{borderColor:"purple", borderWidth:"1px", transform: "scale(1.05)", 
+                      transition: "transform 0.2s ease-in-out"}}
                   >
                     <Text bg="white" p={3} mt={4}>
-                      <strong>{reward.name}</strong> - {reward.cost} coins
+                      <strong>{reward.name}</strong> - {reward.cost} gems
                     </Text>
                     <Button
                       px={4}

@@ -15,7 +15,7 @@ import {
 const RewardView: React.FC = () => {
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [rewardName, setRewardName] = useState("");
-  const [rewardCost, setRewardCost] = useState(1);
+  const [rewardCost, setRewardCost] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [editingReward, setEditingReward] = useState<Reward | null>(null);
   const [editedName, setEditedName] = useState("");
@@ -52,14 +52,16 @@ const RewardView: React.FC = () => {
   }, []);
 
   const createReward = async () => {
-    if (!rewardName.trim() || rewardCost <= 0) return;
+    const numericRewardCost = rewardCost === "" ? 0 : Number(rewardCost);
+
+    if (!rewardName.trim() || numericRewardCost <= 0) return;
 
     setLoading(true);
+
     try {
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
-      if (userError || !userData?.user)
-        throw new Error("User not authenticated");
+      if (userError) throw new Error("User not found");
 
       const authUserId = userData.user.id;
 
@@ -70,17 +72,11 @@ const RewardView: React.FC = () => {
         .single();
 
       if (parentError) throw new Error("Parent not found");
-
       const parentId = parentData.id;
 
-      const { error } = await supabase
+      await supabase
         .from("soc_final_rewards")
-        .insert([{ name: rewardName, cost: rewardCost, parent_id: parentId }]);
-
-      if (error) throw new Error("Error creating reward");
-
-      setRewardName("");
-      setRewardCost(1);
+        .insert([{ name: rewardName, cost: numericRewardCost }]);
 
       const { data: updatedRewards, error: fetchError } = await supabase
         .from("soc_final_rewards")
@@ -88,10 +84,12 @@ const RewardView: React.FC = () => {
         .eq("parent_id", parentId);
 
       if (fetchError) throw new Error("Error fetching rewards");
+
       setRewards(updatedRewards);
     } catch (err) {
       console.error("Error:", err);
     }
+
     setLoading(false);
   };
 
@@ -178,9 +176,8 @@ const RewardView: React.FC = () => {
             <Input
               type="number"
               value={rewardCost}
-              onChange={(e) => setRewardCost(Number(e.target.value))}
-              min={1}
-              placeholder="Reward Cost"
+              onChange={(e) => setRewardCost(e.target.value)}
+              placeholder="Enter Reward Value..."
               mb={4}
               variant="outline"
             />
@@ -214,10 +211,9 @@ const RewardView: React.FC = () => {
 
               <Input
                 type="number"
-                value={editedCost}
-                onChange={(e) => setEditedCost(Number(e.target.value))}
-                min={1}
-                placeholder="Reward Cost"
+                value={rewardCost}
+                onChange={(e) => setRewardCost(e.target.value)}
+                placeholder="0"
                 mb={4}
                 variant="outline"
               />
@@ -279,7 +275,7 @@ const RewardView: React.FC = () => {
                   <p>
                     <strong>{reward.name}</strong>
                   </p>
-                  <p>Cost: {reward.cost} coins</p>
+                  <p>Cost: {reward.cost} gems</p>
 
                   <Button
                     onClick={() => {
