@@ -40,7 +40,6 @@ export default function CreateProfile() {
     setLoading(true);
 
     try {
-      // 1: Sign up user in Supabase Auth
       const { data, error } = await supabase.auth.signUp({ email, password });
 
       if (error) throw new Error(error.message);
@@ -49,7 +48,6 @@ export default function CreateProfile() {
       if (!authUserId)
         throw new Error("User creation failed. Please try again.");
 
-      // 2: Insert parent into "soc_final_parents"
       const { data: parentData, error: parentError } = await supabase
         .from("soc_final_parents")
         .insert([
@@ -71,7 +69,6 @@ export default function CreateProfile() {
 
       const parentId = parentData.id;
 
-      // 3: Insert kids into "soc_final_kids" (currency defaults to 0)
       const kidInserts = kids
         .filter((kid) => kid.name.trim() !== "")
         .map((kid) => ({
