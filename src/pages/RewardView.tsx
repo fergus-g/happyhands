@@ -146,7 +146,7 @@ const RewardView: React.FC = () => {
       <Box bg="#B2DFDB" p={4} rounded="md" mb={4} shadow="lg">
         <Heading
           mt={2}
-          bg="purple.500"
+          bg="#800080"
           color="white"
           p={4}
           borderRadius="xl"
@@ -155,6 +155,8 @@ const RewardView: React.FC = () => {
           fontWeight="bold"
           textAlign="center"
           mb={8}
+          maxW="md"
+          mx="auto"
         >
           Rewards
         </Heading>
@@ -185,8 +187,10 @@ const RewardView: React.FC = () => {
 
             <Button
               onClick={createReward}
-              colorScheme="green"
-              width="full"
+              bg="#800080"
+              color="white"
+              width="auto"
+              _hover={{ bg: "#80CBC4" }}
               disabled={loading}
             >
               {loading ? <Spinner size="sm" color="white" /> : "Create Reward"}
@@ -246,7 +250,21 @@ const RewardView: React.FC = () => {
           {/* --------------------- Reward List ---------------------------------*/}
           {rewards.length > 0 ? (
             <Box>
-              <Heading size="md" mb={4}>
+              <Heading
+                size="md"
+                mb={4}
+                mt={2}
+                bg="#800080"
+                color="white"
+                p={4}
+                borderRadius="xl"
+                shadow="md"
+                fontSize="1.875rem"
+                fontWeight="bold"
+                textAlign="center"
+                width="full"
+                maxW="md"
+              >
                 Available Rewards
               </Heading>
               {rewards.map((reward) => (
